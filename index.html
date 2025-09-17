@@ -18,7 +18,7 @@
 
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
-    body{margin:0; font-family:'ModernDOS', monospace; background:var(--bg); color:var(--text); font-size:16px; line-height:1.5}
+    body{margin:0; font-family:'ModernDOS', monospace; background:var(--bg); color:#fff; font-size:16px; line-height:1.5}
 
     /* LAYOUT */
     .wrap{max-width:1200px; margin:0 auto; padding:24px 18px}
@@ -104,12 +104,64 @@
       h1.big{font-size:200%}          /* főcím visszafogva mobilon */
       h2{font-size:120%}
     }
+      /* Title decoration (GIF belt around the heading) */
+    .title-wrap{display:grid; gap:6px; margin-bottom:10px}
+    .gif-row{display:flex; justify-content:center; gap:8px; flex-wrap:wrap}
+    .gif-row img{height:32px; image-rendering:pixelated}
+    @media (max-width:640px){ .gif-row img{height:24px} }
+      /* Title decoration (GIF belt around and sides of the heading) */
+    .title-wrap{display:grid; gap:6px; margin-bottom:10px}
+    .gif-row{display:flex; justify-content:center; gap:8px; flex-wrap:wrap}
+    .gif-row img{height:32px; image-rendering:pixelated}
+    .title-row{display:flex; align-items:center; justify-content:center; gap:12px}
+    .title-row .side-gif{height:40px; image-rendering:pixelated}
+    @media (max-width:640px){ .gif-row img{height:24px} .title-row .side-gif{height:28px} }
+      /* Title decoration (GIF belt around and sides of the heading) */
+    .title-wrap{display:grid; gap:6px; margin-bottom:10px}
+    .gif-row{display:flex; justify-content:center; gap:8px; flex-wrap:wrap}
+    .gif-row img{height:32px; image-rendering:pixelated}
+    .title-row{display:flex; align-items:center; justify-content:center; gap:12px}
+    .title-row .side-gif{height:40px; image-rendering:pixelated}
+    @media (max-width:640px){ .gif-row img{height:24px} .title-row .side-gif{height:28px} }
+    /* Easter egg */
+    .egg{cursor:pointer}
+    .egg:focus{outline:2px dashed var(--yellow); outline-offset:2px}
+      /* Title decoration (GIF belt around and sides of the heading) */
+    .title-wrap{display:grid; gap:6px; margin-bottom:10px}
+    .gif-row{display:flex; justify-content:center; gap:8px; flex-wrap:wrap}
+    .gif-row img{height:32px; image-rendering:pixelated}
+    .title-row{display:flex; align-items:center; justify-content:center; gap:12px}
+    .title-row .side-gif{height:40px; image-rendering:pixelated}
+    @media (max-width:640px){ .gif-row img{height:24px} .title-row .side-gif{height:28px} }
+    /* Easter egg */
+    .egg{cursor:pointer}
+    .egg:focus{outline:2px dashed var(--yellow); outline-offset:2px}
+    /* Tiny DOS toast */
+    .toast{position:fixed; right:12px; top:12px; background:#000; color:var(--yellow); border:2px solid var(--border); padding:6px 8px; opacity:0; pointer-events:none; transition:opacity .2s; z-index:1000}
+    .toast.show{opacity:1}
+    /* DOS terminal widget */
+    .term{border:2px solid var(--border); background:#000; color:var(--text); padding:8px; margin-top:10px; font-family:'ModernDOS', monospace}
+    .term .line{white-space:pre}
+    .caret{animation:blink 1s steps(2,start) infinite}
+    @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
   </style>
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1 class="big" data-i18n="brand">Kis Technikai Múzeum</h1>
+      <div class="title-wrap">
+        <div class="gif-row">
+          <img class="egg" src="assets/decor/dec_01.gif" data-sfx="dec_01" data-msg="Deploy the torpedo!" role="button" tabindex="0" alt="" aria-label="Deploy the torpedo!">
+        </div>
+        <div class="title-row">
+          <img class="side-gif egg" src="assets/decor/dec_02.gif" data-sfx="dec_02" data-msg="Nobody steals our chicks... and lives" role="button" tabindex="0" alt="" aria-label="Nobody steals our chicks... and lives">
+          <h1 class="big" data-i18n="brand">Kis Technikai Múzeum</h1>
+          <img class="side-gif egg" src="assets/decor/dec_03.gif" data-sfx="dec_03" data-msg="Gotta go fast!" role="button" tabindex="0" alt="" aria-label="Gotta go fast!">
+        </div>
+        <div class="gif-row">
+          <img class="egg" src="assets/decor/dec_04.gif" data-sfx="dec_04" data-msg="When you're a little rabbit, carry a BIG GUN!" role="button" tabindex="0" alt="" aria-label="When you're a little rabbit, carry a BIG GUN!">
+        </div>
+      </div>
       <nav>
         <ul>
           <li><a href="#home"><span class="fk">F1</span><span data-i18n="menu.home">Bevezetés</span></a></li>
@@ -126,6 +178,9 @@
         <button data-lang="hu" class="active">HU</button>
         <button data-lang="sk">SK</button>
         <button data-lang="en">EN</button>
+      </div>
+      <div class="term" aria-label="DOS terminál">
+        <div class="line">C:\><span class="typed"></span><span class="caret">_</span></div>
       </div>
     </header>
 
@@ -362,6 +417,58 @@
         setLang(localStorage.getItem('site_lang')||'hu');
       });
     </script>
+<audio id="sfx-dec_01" src="assets/sfx/dec_01.mp3" preload="auto"></audio>
+<audio id="sfx-dec_02" src="assets/sfx/dec_02.mp3" preload="auto"></audio>
+<audio id="sfx-dec_03" src="assets/sfx/dec_03.mp3" preload="auto"></audio>
+<audio id="sfx-dec_04" src="assets/sfx/dec_04.mp3" preload="auto"></audio>
+<div class="toast" id="dos-toast" role="status" aria-live="polite"></div>
+<script>
+  window.addEventListener('DOMContentLoaded',()=>{
+    // --- Easter egg sounds + tiny toast ---
+    const toast = document.getElementById('dos-toast');
+    let toastTimer = null;
+    function showToast(msg){
+      if(!toast) return; toast.textContent = msg; toast.classList.add('show');
+      clearTimeout(toastTimer); toastTimer = setTimeout(()=> toast.classList.remove('show'), 1400);
+    }
+    document.querySelectorAll('img.egg[data-msg]').forEach(el=>{
+      const msg = el.dataset.msg || '';
+      const sfx = el.dataset.sfx ? document.getElementById('sfx-'+el.dataset.sfx) : null;
+      function fire(){
+        // Try sound; if missing or blocked, just show toast.
+        try{ if(sfx){ sfx.currentTime = 0; sfx.play().catch(()=>{}); } }catch(e){}
+        showToast(msg);
+      }
+      el.addEventListener('click', fire);
+      el.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); fire(); } });
+    });
+
+    // --- Tiny DOS terminal typewriter ---
+    const typed = document.querySelector('.term .typed');
+    const caret = document.querySelector('.term .caret');
+    if(typed && caret){
+      const cmds = ['doom.exe','jazz2.exe','nc.exe','wolf3d.exe','worms.exe','nfs.exe','mm2.exe','blood.exe','sw.exe','rr.exe','heretic.exe','hexen.exe','gta.exe','civ.exe','cnc.exe','mortal.exe','ra.exe','prince.exe','heroes.exe','quake.exe','war.exe','sws.exe','tomb.exe','lionking.exe','lemmings.exe','sierra.exe','world.exe','dr.exe','carma.exe','fifa96.exe','axe.exe','ewj.exe','alone.exe','bomber.exe','rod.exe','supaplex.exe','tyrian.exe','prehistor.exe','lotus.exe','tim.exe','keen.exe','dave.exe','goblins.exe'];
+      let idx = 0;
+      function typeCmd(text, cb){
+        typed.textContent = '';
+        let i = 0; const spd = 90; // ms per char
+        const t = setInterval(()=>{
+          typed.textContent = text.slice(0, ++i);
+          if(i >= text.length){ clearInterval(t); setTimeout(cb, 1500); }
+        }, spd);
+      }
+      function cycle(){
+        typeCmd(cmds[idx], ()=>{
+          // Simulate Enter → clear line
+          typed.textContent = '';
+          idx = (idx+1) % cmds.length;
+          setTimeout(cycle, 600);
+        });
+      }
+      cycle();
+    }
+  });
+</script>
 </body>
 </html>
 
