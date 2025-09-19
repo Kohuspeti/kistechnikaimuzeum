@@ -164,6 +164,15 @@
   .products{grid-template-columns:repeat(3, 1fr) !important;}
 }
 
+
+/* === UPDATED BREAKPOINT: 1 col <=360px, 3 cols >=361px === */
+@media (max-width:360px){
+  .products{grid-template-columns:1fr !important;}
+}
+@media (min-width:361px){
+  .products{grid-template-columns:repeat(3, 1fr) !important;}
+}
+
 </style>
 </head>
 <body>
