@@ -155,7 +155,16 @@
     .term .line{white-space:pre}
     .caret{animation:blink 1s steps(2,start) infinite}
     @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
-  </style>
+  
+/* === MERCH GRID OVERRIDE (requested 3 cols >=501px, 1 col <=500px) === */
+@media (max-width:500px){
+  .products{grid-template-columns:1fr !important;}
+}
+@media (min-width:501px){
+  .products{grid-template-columns:repeat(3, 1fr) !important;}
+}
+
+</style>
 </head>
 <body>
   <div class="wrap">
@@ -376,7 +385,7 @@
           'merch.2.title':'Tesla B101 Stereo','merch.2.desc':'legendás orsós magnó.',
           'merch.3.title':'Tesla Copelia zeneszekrény','merch.3.desc':'elegáns zeneszekrény, letisztult vonalakkal.',
           'merch.4.title':'iMac G3 Bondi Blue','merch.4.desc':'Egyedi formatervű, sokoldalú számítógép a 90-es évek végéről.',
-          'merch.5.title':'Videoton TB631 Kékes','merch.5.desc':'Nevéhez hűen, szokatlan kék színű előlapú tévé.',
+          'merch.5.title':'Videoton TB631 „Kékes”','merch.5.desc':'Nevéhez hűen, szokatlan kék színű előlapú tévé.',
           'merch.6.title':'Pedálos Moszkvics','merch.6.desc':'Gyerekkorunk kedvenc járgánya.',
           /* ÚJ: 7–9 */
           'merch.7.title':'Junoszty 402B + Videoton Pong','merch.7.desc':'Peak gaming setup a 80-as évek elejéről.',
@@ -387,7 +396,7 @@
           brand:'Malé technické múzeum',
           'menu.home':'Úvod','menu.info':'Informácie','menu.gallery':'Galéria','menu.videos':'Videá','menu.support':'Podpora / Merch','menu.links':'Odporúčame','menu.supporters':'Podporovatelia','lang.label':'Jazyk:',
           'gallery.title':'Galéria','support.title':'Podpora / Merch','supporters.title':'Podporovatelia',
-          'home.p1':'Vitajte na webovej stránke <span style="color:var(--yellow); font-weight:normal">Malého technického múzea</span>! Od roku 2019 ponúkame nahliadnutie do fascinujúceho sveta techniky pre malých aj veľkých. Sledujte vývoj strojov od detektorov, cez elektrónky a tranzistory až po integrované obvody.',
+          'home.p1':'Vitajte na webovej stránke <span style="color:var(--yellow); font-weight:normal">Malého technického múzea</span>! Od roku 2019 ponúkame nahliadnutie do faszinujúceho sveta techniky pre malých aj veľkých. Sledujte vývoj strojov od detektorov, cez elektrónky a tranzistory až po integrované obvody.',
           'home.p2':'Telekomunikácie, výpočtová technika, rádiotechnika, vojenská technika, zábavný priemysel, domáce spotrebiče – časová kapsula z minulosti. Ponúkame odborný výklad; väčšina exponátov je interaktívna.',
           'home.p3':'<span style="color:var(--yellow); font-weight:normal">Vstup je bezplatný</span>; zvyčajne otvorené každú druhú sobotu od 14:00 do 17:00. Aktuálne informácie sledujte na <a class="link-plain" href="https://www.facebook.com/muzeumszimo/" target="_blank" rel="noopener">Facebooku</a>. Skupiny a školské triedy prosíme nahlásiť <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e-mailom</a>.',
           'home.p4':'Projekt je úplne neziskový, vstupné sa nevyberá – ak chcete podporiť iniciatívu alebo darovať exponát, napíšte nám <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e-mail</a> alebo si pozrite sekciu <a class="link-plain" href="#support">Podpora / Merch</a>.',
