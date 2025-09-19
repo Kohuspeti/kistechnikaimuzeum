@@ -61,16 +61,20 @@
       .video-grid{grid-template-columns:repeat(2,1fr)}
       .sponsors{grid-template-columns:repeat(2,1fr)}
     }
-    @media (max-width:640px){ body{font-size:200%} $1 } }
+
+    /* (FIX) korábbi törött @media blokk helyett korrekt mobil tipográfia */
+    @media (max-width:640px){
+      body{font-size:100%}
       .wrap{padding:18px 12px}
     }
-      .icons{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+
+    .icons{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
     .icons a{display:inline-grid; place-items:center; width:60px; height:60px; padding:6px}
     .icons img{width:36px; height:36px; image-rendering:pixelated}
     .icons a{display:inline-grid; place-items:center; width:40px; height:40px; padding:4px}
     .icons img{width:24px; height:24px; image-rendering:pixelated}
     .icons a{min-width:90px; text-align:center}
-      .icons{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+    .icons{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
     .icons a{min-width:90px; text-align:center}
 
     /* Lang switch */
@@ -81,65 +85,72 @@
     /* Media helpers */
     .gallery a, .product a{display:block}
     .gallery img, .product img{width:100%; display:block; height:auto}
-      .icons{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
-    .icons a{display:inline-grid; place-items:center; width:60px; height:60px; padding:6px}
-    .icons img{width:36px; height:36px; image-rendering:pixelated}
-
-    .fk{border:2px solid var(--border); background:#000; color:var(--yellow); padding:1px 6px; margin-right:6px}
-    .big{font-size:270%}
-    .link-plain{background:transparent; color:var(--yellow); text-decoration:underline; padding:0}
-    .link-plain:hover{filter:none; text-decoration:none}
-      .icons{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
-    .icons a{display:inline-grid; place-items:center; width:60px; height:60px; padding:6px}
-    .icons img{width:36px; height:36px; image-rendering:pixelated}
 
     .fk{border:2px solid var(--border); background:#000; color:var(--yellow); padding:1px 6px; margin-right:6px}
     .big{font-size:270%}
     .link-plain{background:transparent; color:var(--yellow); text-decoration:underline; padding:0}
     .link-plain:hover{filter:none; text-decoration:none}
     .iban{font-size:200%}
-      /* Mobile-friendly type sizes (override) */
+
+    /* Mobile-friendly type sizes (override) – ez marad */
     @media (max-width:640px){
-      body{font-size:100%}            /* ~16px base, per common mobile guidance */
-      h1.big{font-size:200%}          /* főcím visszafogva mobilon */
+      h1.big{font-size:200%}
       h2{font-size:120%}
     }
-      /* Title decoration (GIF belt around the heading) */
+
+    /* Title decoration (GIF belt around the heading) */
     .title-wrap{display:grid; gap:6px; margin-bottom:10px}
     .gif-row{display:flex; justify-content:center; gap:8px; flex-wrap:wrap}
     .gif-row img{height:32px; image-rendering:pixelated}
     @media (max-width:640px){ .gif-row img{height:24px} }
-      /* Title decoration (GIF belt around and sides of the heading) */
-    .title-wrap{display:grid; gap:6px; margin-bottom:10px}
-    .gif-row{display:flex; justify-content:center; gap:8px; flex-wrap:wrap}
-    .gif-row img{height:32px; image-rendering:pixelated}
     .title-row{display:flex; align-items:center; justify-content:center; gap:12px}
     .title-row .side-gif{height:40px; image-rendering:pixelated}
-    @media (max-width:640px){ .gif-row img{height:24px} .title-row .side-gif{height:28px} }
-      /* Title decoration (GIF belt around and sides of the heading) */
-    .title-wrap{display:grid; gap:6px; margin-bottom:10px}
-    .gif-row{display:flex; justify-content:center; gap:8px; flex-wrap:wrap}
-    .gif-row img{height:32px; image-rendering:pixelated}
-    .title-row{display:flex; align-items:center; justify-content:center; gap:12px}
-    .title-row .side-gif{height:40px; image-rendering:pixelated}
-    @media (max-width:640px){ .gif-row img{height:24px} .title-row .side-gif{height:28px} }
+    @media (max-width:640px){ .title-row .side-gif{height:28px} }
+
     /* Easter egg */
     .egg{cursor:pointer}
     .egg:focus{outline:2px dashed var(--yellow); outline-offset:2px}
-      /* Title decoration (GIF belt around and sides of the heading) */
-    .title-wrap{display:grid; gap:6px; margin-bottom:10px}
-    .gif-row{display:flex; justify-content:center; gap:8px; flex-wrap:wrap}
-    .gif-row img{height:32px; image-rendering:pixelated}
-    .title-row{display:flex; align-items:center; justify-content:center; gap:12px}
-    .title-row .side-gif{height:40px; image-rendering:pixelated}
-    @media (max-width:640px){ .gif-row img{height:24px} .title-row .side-gif{height:28px} }
-    /* Easter egg */
-    .egg{cursor:pointer}
-    .egg:focus{outline:2px dashed var(--yellow); outline-offset:2px}
-    /* Tiny DOS toast */
-    .toast{position:fixed; right:12px; top:12px; background:#000; color:var(--yellow); border:2px solid var(--border); padding:6px 8px; opacity:0; pointer-events:none; transition:opacity .2s; z-index:1000}
-    .toast.show{opacity:1}
-    /* DOS terminal widget */
+
+    /* ---- KÉRT VÁLTOZTATÁSOK ALÁBB ---- */
+
+    /* (2) Merch rács – stabil mobilon is (pl. 1080×2060) */
+    .products{
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));
+      gap:12px;
+      align-items:stretch;
+    }
+    .product{
+      display:flex; flex-direction:column; gap:8px; height:100%;
+      border-radius:10px;
+      background:#000;
+    }
+    .product a[data-lightbox]{ /* egységes képarány, nincs "ugrálás" */
+      display:block; aspect-ratio:4/3; overflow:hidden; border-radius:8px;
+    }
+    .product a[data-lightbox] img{
+      width:100%; height:100%; object-fit:cover; display:block;
+    }
+    .product p{flex:1 1 auto} /* a leírás kitölti a rendelkezésre álló helyet */
+
+    @media (max-width:500px){
+      .products{grid-template-columns:1fr}
+    }
+
+    /* (3) Toast középre igazítva + hosszabb ideig */
+    .toast{
+      position:fixed; left:50%; top:50%;
+      transform:translate(-50%,-50%) scale(.98);
+      background:rgba(0,0,0,.92); color:var(--yellow);
+      border:2px solid var(--border);
+      padding:12px 16px; border-radius:12px;
+      opacity:0; pointer-events:none; transition:opacity .2s, transform .2s;
+      z-index:1000; text-align:center; max-width:min(90vw,520px);
+      box-shadow:0 10px 30px rgba(0,0,0,.35); backdrop-filter:blur(4px);
+    }
+    .toast.show{opacity:1; transform:translate(-50%,-50%) scale(1)}
+
+    /* DOS terminal widget (változatlan) */
     .term{border:2px solid var(--border); background:#000; color:var(--text); padding:8px; margin-top:10px; font-family:'ModernDOS', monospace}
     .term .line{white-space:pre}
     .caret{animation:blink 1s steps(2,start) infinite}
@@ -190,7 +201,7 @@
         <div class="panel">
           <p data-i18n="home.p1">Üdv a <span style='color:var(--yellow); font-weight:normal'>Kis Technikai Múzeum</span> weboldalán! 2019 óta enged bepillantást a technika csodás világába, legyen szó kicsikről vagy nagyokról. Kísérd végig a masinák fejlődését a detektoroktól kezdve, az elektroncsöveken és tranzisztorokon át, az integrált áramkörökig.</p>
           <p data-i18n="home.p2">Telekommunikáció, számítástechnika, híradástechnika, katonai eszközök, szórakoztató ipar, háztartási gépek – időkapszula a múltból. Szakszerű tárlatvezetéssel készülünk, a termékek nagy része kipróbálható, interaktív.</p>
-          <p data-i18n="home.p3"><span style='color:var(--yellow); font-weight:normal'>A múzeum látogatása ingyenes</span>, nyitvatartása általában minden második szombaton esedékes 14:00-tól 17:00-ig. Javasoljuk megtekinteni a <a class='link-plain' href='https://www.facebook.com/muzeumszimo/' target='_blank' rel='noopener'>Facebook</a>-ot az aktuális nyitvatartásról. Klubok, csoportok, iskolaosztályok látogatását is szívesen várjuk, ebben az esetben kéretik <a class='link-plain' href='mailto:kohusp.servis@gmail.com'>e‑mailben</a> jelezni a szándékot.</p>
+          <p data-i18n="home.p3"><span style='color:var(--yellow); font-weight:normal'>A múzeum látogatása ingyenes</span>, nyitvatartása általában minden második szombaton esedékes 14:00-tól 17:00-ig. Javasoljuk megtekinteni a <a class='link-plain' href='https://www.facebook.com/muzeumszimo/' target='_blank' rel='noopener'>Facebook</a>-ot az aktuális nyitvatartásról. Klubok, csoportok, iskolaosztályok látogatását is szívesen várjuk, ebben az esetben kéretik <a class='link-plain' href='mailto:kohusp.servis@gmail.com'>e-mailben</a> jelezni a szándékot.</p>
           <p data-i18n="home.p4">A projekt teljesen nonprofit, nincs belépődíj – ha támogatni szeretnéd a kezdeményezést vagy felajánlani egy terméket, keress <a class='link-plain' href='mailto:kohusp.servis@gmail.com'>mailben</a> vagy nézd meg a <a class='link-plain' href='#support'>Támogatás / Merch</a> menüpontot.</p>
           <div class="icons" aria-label="Közösségi csatornák">
             <a href="https://www.facebook.com/muzeumszimo/" target="_blank" rel="noopener" aria-label="Facebook"><img src="assets/icons/fb.png" alt="Facebook" loading="lazy"></a>
@@ -206,7 +217,7 @@
         <h2 data-i18n="menu.info">Infók</h2>
         <div class="panel">
           <p data-i18n="info.address"><span style="color:var(--yellow)">Cím:</span> G. Czuczora 261, Zemné, Slovakia, 94122</p>
-          <p data-i18n="info.email"><span style="color:var(--yellow)">E‑mail:</span> <a class="link-plain" href="mailto:kohusp.servis@gmail.com">kohusp.servis@gmail.com</a></p>
+          <p data-i18n="info.email"><span style="color:var(--yellow)">E-mail:</span> <a class="link-plain" href="mailto:kohusp.servis@gmail.com">kohusp.servis@gmail.com</a></p>
           <p data-i18n="info.phone"><span style="color:var(--yellow)">Telefon:</span> <a class="link-plain" href="tel:+421918089547">+421 918 089 547</a></p>
           <p data-i18n="info.entry"><span style="color:var(--yellow)">Belépés:</span> Ingyenes belépés</p>
           <p data-i18n="info.hours"><span style="color:var(--yellow)">Nyitvatartás:</span> minden második szombat, bővebb info: <a class="link-plain" href="https://www.facebook.com/muzeumszimo/" target="_blank" rel="noopener">Facebook</a></p>
@@ -246,11 +257,11 @@
       <section id="support">
         <h2 data-i18n="support.title">Támogatás / Merch</h2>
         <div class="panel">
-          <p data-i18n="support.p1">Minden támogatás jól jön: anyagi, tárgyi vagy ha csak megosztod a múzeum hírét, hogy minél többekhez eljusson. A múzeum non‑profit, nincs belépődíj: különösen sokat segít a legkisebb gesztus is. Előre is köszönjük!</p>
+          <p data-i18n="support.p1">Minden támogatás jól jön: anyagi, tárgyi vagy ha csak megosztod a múzeum hírét, hogy minél többekhez eljusson. A múzeum non-profit, nincs belépődíj: különösen sokat segít a legkisebb gesztus is. Előre is köszönjük!</p>
           <p data-i18n="support.p2">Az anyagilag támogatóknak szeretnénk köszönetet mondani egy kis figyelmességgel is: választhat az alábbi dísztárgyak egyikéből. A kis merch tárgyacskák kicsinyített másai a régmúlt népszerű, szép termékeiből: gondosan ügyelve a részletekre és a legtöbb interaktív – nyitható ajtócskák, mozgatható alkatrészek.</p>
           <p data-i18n="support.p3"><span style='color:var(--yellow); font-weight:normal'>40 Euró támogatás felett</span> jár az ajándék. A támogatók személyesen a múzeumban tudnak adakozni vagy számlára utalással:</p>
           <p><span class="iban" style="font-weight:normal">SK74 0200 0000 0021 9901 3253</span></p>
-          <p data-i18n="support.p4">Utalás esetén kérjük az információs mezőbe beírni „Kis Technikai Múzeum”, és szíveskedjenek erről külön <a class='link-plain' href='mailto:kohusp.servis@gmail.com'>e‑mailt</a> is küldeni a nevükkel. Aki 40 Euró felett támogatna utalással, és igényelne egy merch modellt is, ugyancsak e‑mailben jelezze ezt felénk, informáljon hogy személyes átvétel lenne a múzeumban vagy futárszolgálattal kéri. Utóbbi esetben adja meg a címét, telefonszámát is.</p>
+          <p data-i18n="support.p4">Utalás esetén kérjük az információs mezőbe beírni „Kis Technikai Múzeum”, és szíveskedjenek erről külön <a class='link-plain' href='mailto:kohusp.servis@gmail.com'>e-mailt</a> is küldeni a nevükkel. Aki 40 Euró felett támogatna utalással, és igényelne egy merch modellt is, ugyancsak e-mailben jelezze ezt felénk, informáljon hogy személyes átvétel lenne a múzeumban vagy futárszolgálattal kéri. Utóbbi esetben adja meg a címét, telefonszámát is.</p>
         </div>
         <div class="products">
           <!-- 4 sor × 3 oszlop = 12 kártya => merch_01..12 -->
@@ -275,9 +286,24 @@
           <div class="product">
             <a href="assets/merch/full/merch_06.jpg" data-lightbox><img src="assets/merch/thumbs/merch_06.jpg" alt="Merch 6"></a>
             <h3 data-i18n="merch.6.title">Pedálos Moszkvics</h3><p data-i18n="merch.6.desc">Gyerekkorunk kedvenc járgánya.</p></div>
-          <div class="product"><a href="assets/merch/full/merch_07.jpg" data-lightbox><img src="assets/merch/thumbs/merch_07.jpg" alt="Merch 7"></a><h3>Merch 7</h3><p>Leírás.</p></div>
-          <div class="product"><a href="assets/merch/full/merch_08.jpg" data-lightbox><img src="assets/merch/thumbs/merch_08.jpg" alt="Merch 8"></a><h3>Merch 8</h3><p>Leírás.</p></div>
-          <div class="product"><a href="assets/merch/full/merch_09.jpg" data-lightbox><img src="assets/merch/thumbs/merch_09.jpg" alt="Merch 9"></a><h3>Merch 9</h3><p>Leírás.</p></div>
+
+          <!-- KÉRT FRISSÍTÉSEK: 7–9 -->
+          <div class="product">
+            <a href="assets/merch/full/merch_07.jpg" data-lightbox><img src="assets/merch/thumbs/merch_07.jpg" alt="Merch 7"></a>
+            <h3 data-i18n="merch.7.title">Junoszty 402B + Videoton Pong</h3>
+            <p data-i18n="merch.7.desc">Peak gaming setup a 80-as évek elejéről.</p>
+          </div>
+          <div class="product">
+            <a href="assets/merch/full/merch_08.jpg" data-lightbox><img src="assets/merch/thumbs/merch_08.jpg" alt="Merch 8"></a>
+            <h3 data-i18n="merch.8.title">Tesla Color 416</h3>
+            <p data-i18n="merch.8.desc">Az első „modern” Tesla színes TV. A sorozatban debütált a távirányító, a SCART bemenet és a Teletext is.</p>
+          </div>
+          <div class="product">
+            <a href="assets/merch/full/merch_09.jpg" data-lightbox><img src="assets/merch/thumbs/merch_09.jpg" alt="Merch 9"></a>
+            <h3 data-i18n="merch.9.title">Tesla Merkur 2</h3>
+            <p data-i18n="merch.9.desc">Az egyik legnépszerűbb hordozható kistévé, gyakran monitorként használva a PMD-85 számítógépekhez.</p>
+          </div>
+
           <div class="product"><a href="assets/merch/full/merch_10.jpg" data-lightbox><img src="assets/merch/thumbs/merch_10.jpg" alt="Merch 10"></a><h3>Merch 10</h3><p>Leírás.</p></div>
           <div class="product"><a href="assets/merch/full/merch_11.jpg" data-lightbox><img src="assets/merch/thumbs/merch_11.jpg" alt="Merch 11"></a><h3>Merch 11</h3><p>Leírás.</p></div>
           <div class="product"><a href="assets/merch/full/merch_12.jpg" data-lightbox><img src="assets/merch/thumbs/merch_12.jpg" alt="Merch 12"></a><h3>Merch 12</h3><p>Leírás.</p></div>
@@ -334,24 +360,28 @@
           'gallery.title':'Galéria','support.title':'Támogatás / Merch','supporters.title':'Támogatók',
           'home.p1':'Üdv a <span style="color:var(--yellow); font-weight:normal">Kis Technikai Múzeum</span> weboldalán! 2019 óta enged bepillantást a technika csodás világába, legyen szó kicsikről vagy nagyokról. Kísérd végig a masinák fejlődését a detektoroktól kezdve, az elektroncsöveken és tranzisztorokon át, az integrált áramkörökig.',
           'home.p2':'Telekommunikáció, számítástechnika, híradástechnika, katonai eszközök, szórakoztató ipar, háztartási gépek – időkapszula a múltból. Szakszerű tárlatvezetéssel készülünk, a termékek nagy része kipróbálható, interaktív.',
-          'home.p3':'<span style="color:var(--yellow); font-weight:normal">A múzeum látogatása ingyenes</span>, nyitvatartása általában minden második szombaton esedékes 14:00-tól 17:00-ig. Javasoljuk megtekinteni a <a class="link-plain" href="https://www.facebook.com/muzeumszimo/" target="_blank" rel="noopener">Facebook</a>-ot az aktuális nyitvatartásról. Klubok, csoportok, iskolaosztályok látogatását is szívesen várjuk, ebben az esetben kéretik <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e‑mailben</a> jelezni a szándékot.',
+          'home.p3':'<span style="color:var(--yellow); font-weight:normal">A múzeum látogatása ingyenes</span>, nyitvatartása általában minden második szombaton esedékes 14:00-tól 17:00-ig. Javasoljuk megtekinteni a <a class="link-plain" href="https://www.facebook.com/muzeumszimo/" target="_blank" rel="noopener">Facebook</a>-ot az aktuális nyitvatartásról. Klubok, csoportok, iskolaosztályok látogatását is szívesen várjuk, ebben az esetben kéretik <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e-mailben</a> jelezni a szándékot.',
           'home.p4':'A projekt teljesen nonprofit, nincs belépődíj – ha támogatni szeretnéd a kezdeményezést vagy felajánlani egy terméket, keress <a class="link-plain" href="mailto:kohusp.servis@gmail.com">mailben</a> vagy nézd meg a <a class="link-plain" href="#support">Támogatás / Merch</a> menüpontot.',
           'info.address':'<span style="color:var(--yellow)">Cím:</span> G. Czuczora 261, Zemné, Slovakia, 94122',
-          'info.email':'<span style="color:var(--yellow)">E‑mail:</span> <a class="link-plain" href="mailto:kohusp.servis@gmail.com">kohusp.servis@gmail.com</a>',
+          'info.email':'<span style="color:var(--yellow)">E-mail:</span> <a class="link-plain" href="mailto:kohusp.servis@gmail.com">kohusp.servis@gmail.com</a>',
           'info.phone':'<span style="color:var(--yellow)">Telefon:</span> <a class="link-plain" href="tel:+421918089547">+421 918 089 547</a>',
           'info.entry':'<span style="color:var(--yellow)">Belépés:</span> Ingyenes belépés',
           'info.hours':'<span style="color:var(--yellow)">Nyitvatartás:</span> minden második szombat, bővebb info: <a class="link-plain" href="https://www.facebook.com/muzeumszimo/" target="_blank" rel="noopener">Facebook</a>',
           'info.parking':'<span style="color:var(--yellow)">Parkolás:</span> az épület előtt és az épület udvarán',
-          'support.p1':'Minden támogatás jól jön: anyagi, tárgyi vagy ha csak megosztod a múzeum hírét, hogy minél többekhez eljusson. A múzeum non‑profit, nincs belépődíj: különösen sokat segít a legkisebb gesztus is. Előre is köszönjük!',
+          'support.p1':'Minden támogatás jól jön: anyagi, tárgyi vagy ha csak megosztod a múzeum hírét, hogy minél többekhez eljusson. A múzeum non-profit, nincs belépődíj: különösen sokat segít a legkisebb gesztus is. Előre is köszönjük!',
           'support.p2':'Az anyagilag támogatóknak szeretnénk köszönetet mondani egy kis figyelmességgel is: választhat az alábbi dísztárgyak egyikéből. A kis merch tárgyacskák kicsinyített másai a régmúlt népszerű, szép termékeiből: gondosan ügyelve a részletekre és a legtöbb interaktív – nyitható ajtócskák, mozgatható alkatrészek.',
           'support.p3':'<span style="color:var(--yellow); font-weight:normal">40 Euró támogatás felett</span> jár az ajándék. A támogatók személyesen a múzeumban tudnak adakozni vagy számlára utalással:',
-          'support.p4':'Utalás esetén kérjük az információs mezőbe beírni „Kis Technikai Múzeum”, és szíveskedjenek erről külön <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e‑mailt</a> is küldeni a nevükkel. Aki 40 Euró felett támogatna utalással, és igényelne egy merch modellt is, ugyancsak e‑mailben jelezze ezt felénk, informáljon hogy személyes átvétel lenne a múzeumban vagy futárszolgálattal kéri. Utóbbi esetben adja meg a címét, telefonszámát is.',
+          'support.p4':'Utalás esetén kérjük az információs mezőbe beírni „Kis Technikai Múzeum”, és szíveskedjenek erről külön <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e-mailt</a> is küldeni a nevükkel. Aki 40 Euró felett támogatna utalással, és igényelne egy merch modellt is, ugyancsak e-mailben jelezze ezt felénk, informáljon hogy személyes átvétel lenne a múzeumban vagy futárszolgálattal kéri. Utóbbi esetben adja meg a címét, telefonszámát is.',
           'merch.1.title':'Orion AR612 Pacsirta rádió','merch.1.desc':'a 60-as évek egyik legszebb magyar rádiója.',
           'merch.2.title':'Tesla B101 Stereo','merch.2.desc':'legendás orsós magnó.',
           'merch.3.title':'Tesla Copelia zeneszekrény','merch.3.desc':'elegáns zeneszekrény, letisztult vonalakkal.',
           'merch.4.title':'iMac G3 Bondi Blue','merch.4.desc':'Egyedi formatervű, sokoldalú számítógép a 90-es évek végéről.',
           'merch.5.title':'Videoton TB631 Kékes','merch.5.desc':'Nevéhez hűen, szokatlan kék színű előlapú tévé.',
-          'merch.6.title':'Pedálos Moszkvics','merch.6.desc':'Gyerekkorunk kedvenc járgánya.'
+          'merch.6.title':'Pedálos Moszkvics','merch.6.desc':'Gyerekkorunk kedvenc járgánya.',
+          /* ÚJ: 7–9 */
+          'merch.7.title':'Junoszty 402B + Videoton Pong','merch.7.desc':'Peak gaming setup a 80-as évek elejéről.',
+          'merch.8.title':'Tesla Color 416','merch.8.desc':'Az első „modern” Tesla színes TV. A sorozatban debütált a távirányító, a SCART bemenet és a Teletext is.',
+          'merch.9.title':'Tesla Merkur 2','merch.9.desc':'Az egyik legnépszerűbb hordozható kistévé, gyakran monitorként használva a PMD-85 számítógépekhez.'
         },
         sk:{
           brand:'Malé technické múzeum',
@@ -359,10 +389,10 @@
           'gallery.title':'Galéria','support.title':'Podpora / Merch','supporters.title':'Podporovatelia',
           'home.p1':'Vitajte na webovej stránke <span style="color:var(--yellow); font-weight:normal">Malého technického múzea</span>! Od roku 2019 ponúkame nahliadnutie do fascinujúceho sveta techniky pre malých aj veľkých. Sledujte vývoj strojov od detektorov, cez elektrónky a tranzistory až po integrované obvody.',
           'home.p2':'Telekomunikácie, výpočtová technika, rádiotechnika, vojenská technika, zábavný priemysel, domáce spotrebiče – časová kapsula z minulosti. Ponúkame odborný výklad; väčšina exponátov je interaktívna.',
-          'home.p3':'<span style="color:var(--yellow); font-weight:normal">Vstup je bezplatný</span>; zvyčajne otvorené každú druhú sobotu od 14:00 do 17:00. Aktuálne informácie sledujte na <a class="link-plain" href="https://www.facebook.com/muzeumszimo/" target="_blank" rel="noopener">Facebooku</a>. Skupiny a školské triedy prosíme nahlásiť <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e‑mailom</a>.',
-          'home.p4':'Projekt je úplne neziskový, vstupné sa nevyberá – ak chcete podporiť iniciatívu alebo darovať exponát, napíšte nám <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e‑mail</a> alebo si pozrite sekciu <a class="link-plain" href="#support">Podpora / Merch</a>.',
+          'home.p3':'<span style="color:var(--yellow); font-weight:normal">Vstup je bezplatný</span>; zvyčajne otvorené každú druhú sobotu od 14:00 do 17:00. Aktuálne informácie sledujte na <a class="link-plain" href="https://www.facebook.com/muzeumszimo/" target="_blank" rel="noopener">Facebooku</a>. Skupiny a školské triedy prosíme nahlásiť <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e-mailom</a>.',
+          'home.p4':'Projekt je úplne neziskový, vstupné sa nevyberá – ak chcete podporiť iniciatívu alebo darovať exponát, napíšte nám <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e-mail</a> alebo si pozrite sekciu <a class="link-plain" href="#support">Podpora / Merch</a>.',
           'info.address':'<span style="color:var(--yellow)">Adresa:</span> G. Czuczora 261, Zemné, Slovakia, 94122',
-          'info.email':'<span style="color:var(--yellow)">E‑mail:</span> <a class="link-plain" href="mailto:kohusp.servis@gmail.com">kohusp.servis@gmail.com</a>',
+          'info.email':'<span style="color:var(--yellow)">E-mail:</span> <a class="link-plain" href="mailto:kohusp.servis@gmail.com">kohusp.servis@gmail.com</a>',
           'info.phone':'<span style="color:var(--yellow)">Telefón:</span> <a class="link-plain" href="tel:+421918089547">+421 918 089 547</a>',
           'info.entry':'<span style="color:var(--yellow)">Vstup:</span> Bezplatný vstup',
           'info.hours':'<span style="color:var(--yellow)">Otváracie hodiny:</span> každú druhú sobotu; viac info na <a class="link-plain" href="https://www.facebook.com/muzeumszimo/" target="_blank" rel="noopener">Facebooku</a>',
@@ -370,38 +400,46 @@
           'support.p1':'Každá podpora pomôže: finančná, vecná alebo aj jednoduché zdieľanie, aby sa o múzeu dozvedelo viac ľudí. Múzeum je neziskové, vstupné sa nevyberá – pomôže aj ten najmenší krok. Ďakujeme!',
           'support.p2':'Finančným darcom radi poďakujeme malou pozornosťou: môžete si vybrať jeden z nižšie uvedených predmetov. Ide o miniatúry historických prístrojov s dôrazom na detaily; mnohé sú interaktívne – otváracie dvierka, pohyblivé súčiastky.',
           'support.p3':'<span style="color:var(--yellow); font-weight:normal">Pri podpore nad 40 €</span> získate darček. Prispieť môžete osobne v múzeu alebo bankovým prevodom:',
-          'support.p4':'Do správy pre príjemcu uveďte „Malé technické múzeum“ a pošlite nám aj <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e‑mail</a> s menom. Ak si želáte darčekový predmet a osobné prevzatie alebo doručenie kuriérom, uveďte adresu a telefónne číslo.',
+          'support.p4':'Do správy pre príjemcu uveďte „Malé technické múzeum“ a pošlite nám aj <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e-mail</a> s menom. Ak si želáte darčekový predmet a osobné prevzatie alebo doručenie kuriérom, uveďte adresu a telefónne číslo.',
           'merch.1.title':'Orion AR612 Pacsirta rádio','merch.1.desc':'jedno z najkrajších maďarských rádií 60. rokov.',
           'merch.2.title':'Tesla B101 Stereo','merch.2.desc':'legendárny kotúčový magnetofón.',
           'merch.3.title':'Tesla Copelia hudobná skriňa','merch.3.desc':'elegantná hudobná skriňa s čistými líniami.',
           'merch.4.title':'iMac G3 Bondi Blue','merch.4.desc':'Jedinečný dizajn a všestranný počítač z konca 90. rokov.',
           'merch.5.title':'Videoton TB631 „Kékes”','merch.5.desc':'Verný svojmu menu – televízor s nezvyčajným modrým čelným panelom.',
-          'merch.6.title':'Šliapací Moskvich','merch.6.desc':'Obľúbené vozidielko nášho detstva.'
+          'merch.6.title':'Šliapací Moskvich','merch.6.desc':'Obľúbené vozidielko nášho detstva.',
+          /* ÚJ: 7–9 */
+          'merch.7.title':'Junosť 402B + Videoton Pong','merch.7.desc':'„Peak” herná zostava zo začiatku 80. rokov.',
+          'merch.8.title':'Tesla Color 416','merch.8.desc':'Prvý „moderný” farebný TV Tesla. V tejto sérii debutovalo diaľkové ovládanie, vstup SCART a teletext.',
+          'merch.9.title':'Tesla Merkur 2','merch.9.desc':'Jeden z najobľúbenejších prenosných mini TV, často používaný ako monitor k počítačom PMD-85.'
         },
         en:{
           brand:'Small Technical Museum',
           'menu.home':'Introduction','menu.info':'Info','menu.gallery':'Gallery','menu.videos':'Videos','menu.support':'Support / Merch','menu.links':'Recommendations','menu.supporters':'Supporters','lang.label':'Language:',
           'gallery.title':'Gallery','support.title':'Support / Merch','supporters.title':'Supporters',
           'home.p1':'Welcome to the <span style="color:var(--yellow); font-weight:normal">Small Technical Museum</span>! Since 2019 we have offered a glimpse into the wonderful world of technology for kids and adults alike. Follow the evolution of machines from crystal detectors through vacuum tubes and transistors to integrated circuits.',
-          'home.p2':'Telecommunications, computing, radio engineering, military technology, entertainment, household appliances — a time capsule from the past. Guided tours available; most exhibits are interactive and hands‑on.',
-          'home.p3':'<span style="color:var(--yellow); font-weight:normal)">Admission is free</span>. We are usually open every second Saturday from 14:00 to 17:00. For up‑to‑date opening hours, check our <a class="link-plain" href="https://www.facebook.com/muzeumszimo/" target="_blank" rel="noopener">Facebook</a>. Groups and school classes are welcome; please contact us by <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e‑mail</a>.',
-          'home.p4':'The project is completely non‑profit and there is no entrance fee. If you would like to support us or donate an item, write us an <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e‑mail</a> or see the <a class="link-plain" href="#support">Support / Merch</a> section.',
+          'home.p2':'Telecommunications, computing, radio engineering, military technology, entertainment, household appliances — a time capsule from the past. Guided tours available; most exhibits are interactive and hands-on.',
+          'home.p3':'<span style="color:var(--yellow); font-weight:normal)">Admission is free</span>. We are usually open every second Saturday from 14:00 to 17:00. For up-to-date opening hours, check our <a class="link-plain" href="https://www.facebook.com/muzeumszimo/" target="_blank" rel="noopener">Facebook</a>. Groups and school classes are welcome; please contact us by <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e-mail</a>.',
+          'home.p4':'The project is completely non-profit and there is no entrance fee. If you would like to support us or donate an item, write us an <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e-mail</a> or see the <a class="link-plain" href="#support">Support / Merch</a> section.',
           'info.address':'<span style="color:var(--yellow)">Address:</span> G. Czuczora 261, Zemné, Slovakia, 94122',
-          'info.email':'<span style="color:var(--yellow)">E‑mail:</span> <a class="link-plain" href="mailto:kohusp.servis@gmail.com">kohusp.servis@gmail.com</a>',
+          'info.email':'<span style="color:var(--yellow)">E-mail:</span> <a class="link-plain" href="mailto:kohusp.servis@gmail.com">kohusp.servis@gmail.com</a>',
           'info.phone':'<span style="color:var(--yellow)">Phone:</span> <a class="link-plain" href="tel:+421918089547">+421 918 089 547</a>',
           'info.entry':'<span style="color:var(--yellow)">Entry:</span> Free admission',
           'info.hours':'<span style="color:var(--yellow)">Opening hours:</span> every second Saturday; details on <a class="link-plain" href="https://www.facebook.com/muzeumszimo/" target="_blank" rel="noopener">Facebook</a>',
           'info.parking':'<span style="color:var(--yellow)">Parking:</span> in front of the building and in the courtyard',
-          'support.p1':'All kinds of support help: financial, in‑kind, or simply spreading the word so more people hear about the museum. We are non‑profit and charge no admission — even the smallest gesture helps. Thank you in advance!',
+          'support.p1':'All kinds of support help: financial, in-kind, or simply spreading the word so more people hear about the museum. We are non-profit and charge no admission — even the smallest gesture helps. Thank you in advance!',
           'support.p2':'To thank financial supporters, you can choose one of the small gift items below. These are miniature replicas of classic devices with great attention to detail; many are interactive — with opening doors and moving parts.',
           'support.p3':'<span style="color:var(--yellow); font-weight:normal">For donations over €40</span> you’ll receive a gift. You can donate in person at the museum or by bank transfer:',
-          'support.p4':'For bank transfers, please add “Small Technical Museum” to the payment note and send us an <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e‑mail</a> with your name. If you’d like a gift item and prefer pickup at the museum or courier delivery, please include your address and phone number.',
+          'support.p4':'For bank transfers, please add “Small Technical Museum” to the payment note and send us an <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e-mail</a> with your name. If you’d like a gift item and prefer pickup at the museum or courier delivery, please include your address and phone number.',
           'merch.1.title':'Orion AR612 Pacsirta radio','merch.1.desc':'one of the most beautiful Hungarian radios of the 1960s.',
-          'merch.2.title':'Tesla B101 Stereo','merch.2.desc':'legendary reel‑to‑reel tape recorder.',
+          'merch.2.title':'Tesla B101 Stereo','merch.2.desc':'legendary reel-to-reel tape recorder.',
           'merch.3.title':'Tesla Copelia console stereo','merch.3.desc':'an elegant console with clean lines.',
           'merch.4.title':'iMac G3 Bondi Blue','merch.4.desc':'Distinctive design, versatile computer from the late 1990s.',
           'merch.5.title':'Videoton TB631 “Kékes”','merch.5.desc':'True to its name — a TV set with an unusual blue front panel.',
-          'merch.6.title':'Pedal Moskvich','merch.6.desc':'A childhood favorite ride‑on car.'
+          'merch.6.title':'Pedal Moskvich','merch.6.desc':'A childhood favorite ride-on car.',
+          /* ÚJ: 7–9 */
+          'merch.7.title':'Yunost 402B + Videoton Pong','merch.7.desc':'Peak gaming setup from the early 1980s.',
+          'merch.8.title':'Tesla Color 416','merch.8.desc':'The first “modern” Tesla color TV. This series introduced the remote control, SCART input, and Teletext.',
+          'merch.9.title':'Tesla Merkur 2','merch.9.desc':'One of the most popular portable mini-TVs, often used as a monitor for PMD-85 computers.'
         }
       };
       const setLang=(l)=>{
@@ -424,18 +462,20 @@
 <div class="toast" id="dos-toast" role="status" aria-live="polite"></div>
 <script>
   window.addEventListener('DOMContentLoaded',()=>{
-    // --- Easter egg sounds + tiny toast ---
+    // --- Easter egg sounds + centered toast ---
     const toast = document.getElementById('dos-toast');
     let toastTimer = null;
     function showToast(msg){
-      if(!toast) return; toast.textContent = msg; toast.classList.add('show');
-      clearTimeout(toastTimer); toastTimer = setTimeout(()=> toast.classList.remove('show'), 1400);
+      if(!toast) return;
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=> toast.classList.remove('show'), 6500); // hosszabb megjelenítés
     }
     document.querySelectorAll('img.egg[data-msg]').forEach(el=>{
       const msg = el.dataset.msg || '';
       const sfx = el.dataset.sfx ? document.getElementById('sfx-'+el.dataset.sfx) : null;
       function fire(){
-        // Try sound; if missing or blocked, just show toast.
         try{ if(sfx){ sfx.currentTime = 0; sfx.play().catch(()=>{}); } }catch(e){}
         showToast(msg);
       }
@@ -443,7 +483,7 @@
       el.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); fire(); } });
     });
 
-    // --- Tiny DOS terminal typewriter ---
+    // --- Tiny DOS terminal typewriter (változatlan listával) ---
     const typed = document.querySelector('.term .typed');
     const caret = document.querySelector('.term .caret');
     if(typed && caret){
@@ -451,15 +491,14 @@
       let idx = 0;
       function typeCmd(text, cb){
         typed.textContent = '';
-        let i = 0; const spd = 90; // ms per char
+        let i = 0; const spd = 90; // ms/char
         const t = setInterval(()=>{
           typed.textContent = text.slice(0, ++i);
-          if(i >= text.length){ clearInterval(t); setTimeout(cb, 1500); }
+          if(i >= text.length){ clearInterval(t); setTimeout(cb, 1500+1000); } // +1s extra tartás
         }, spd);
       }
       function cycle(){
         typeCmd(cmds[idx], ()=>{
-          // Simulate Enter → clear line
           typed.textContent = '';
           idx = (idx+1) % cmds.length;
           setTimeout(cycle, 600);
@@ -471,5 +510,3 @@
 </script>
 </body>
 </html>
-
-
