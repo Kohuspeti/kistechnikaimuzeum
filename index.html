@@ -152,6 +152,9 @@
 
     /* DOS terminal widget (változatlan) */
     .term{border:2px solid var(--border); background:#000; color:var(--text); padding:8px; margin-top:10px; font-family:'ModernDOS', monospace}
+    .term{color:#fff !important}
+    .term .prompt{color:#fff !important}
+
     .term .line{white-space:pre}
     .caret{animation:blink 1s steps(2,start) infinite}
     @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
@@ -208,8 +211,7 @@
         <button data-lang="sk">SK</button>
         <button data-lang="en">EN</button>
       </div>
-      <div class="term" aria-label="DOS terminál">
-        <div class="line">C:\><span class="typed"></span><span class="caret">_</span></div>
+      <div class="term" aria-label="DOS terminál"><div class="line"><span class="prompt">C:\></span><span class="typed"></span><span class="caret">_</span></div></div>
       </div>
     </header>
 
@@ -501,30 +503,196 @@
       el.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); fire(); } });
     });
 
-    // --- Tiny DOS terminal typewriter (változatlan listával) ---
-    const typed = document.querySelector('.term .typed');
-    const caret = document.querySelector('.term .caret');
-    if(typed && caret){
-      const cmds = ['doom.exe','jazz2.exe','nc.exe','wolf3d.exe','worms.exe','nfs.exe','mm2.exe','blood.exe','sw.exe','rr.exe','heretic.exe','hexen.exe','gta.exe','civ.exe','cnc.exe','mortal.exe','ra.exe','prince.exe','heroes.exe','quake.exe','war.exe','sws.exe','tomb.exe','lionking.exe','lemmings.exe','sierra.exe','world.exe','dr.exe','carma.exe','fifa96.exe','axe.exe','ewj.exe','alone.exe','bomber.exe','rod.exe','supaplex.exe','tyrian.exe','prehistor.exe','lotus.exe','tim.exe','keen.exe','dave.exe','goblins.exe'];
-      let idx = 0;
-      function typeCmd(text, cb){
-        typed.textContent = '';
-        let i = 0; const spd = 90; // ms/char
-        const t = setInterval(()=>{
-          typed.textContent = text.slice(0, ++i);
-          if(i >= text.length){ clearInterval(t); setTimeout(cb, 1500+1000); } // +1s extra tartás
-        }, spd);
-      }
-      function cycle(){
-        typeCmd(cmds[idx], ()=>{
-          typed.textContent = '';
-          idx = (idx+1) % cmds.length;
-          setTimeout(cycle, 600);
-        });
-      }
-      cycle();
+    <>_/\\|";
+      const chars = s.split("");
+      const count = Math.floor(Math.random()*3)+1;
+      for(let k=0;k<count;k++){ const i = Math.floor(Math.random()*chars.length); chars[i] = pool[Math.floor(Math.random()*pool.length)]; }
+      return chars.join("");
     }
-  });
+
+    // Flicker effect (used only on glitches)
+    const styleFlicker = document.createElement('style');
+    styleFlicker.textContent = `@keyframes crtFlicker{0%,100%{opacity:1}40%{opacity:.65}60%{opacity:.85}} .flicker{animation:crtFlicker .35s linear 1}`;
+    document.head.appendChild(styleFlicker);
+
+    let drive = "C";
+    function setPrompt(d){ drive=d; promptEl.textContent = (drive==="A" ? "A:\\>" : "C:\\>"); }
+
+    function typeLine(text, cb){
+      if(!typed) return cb&&cb();
+      typed.textContent = "";
+      let i=0; const min=45,max=105;
+      (function step(){
+        typed.textContent = text.slice(0, ++i);
+        if(i>=text.length){ setTimeout(cb, 1100); }
+        else{ setTimeout(step, Math.floor(Math.random()*(max-min+1))+min ); }
+      })();
+    }
+
+    function showBoot(done){
+      setPrompt("C");
+      let i=0;
+      function next(){
+        if(i>=BOOT_LINES.length){ return done(); }
+        // fixed (non-typed) — just display the whole line for ~2s
+        typed.textContent = BOOT_LINES[i++];
+        setTimeout(next, 2000);
+      }
+      next();
+    }
+
+    function nextRandomItem(){
+      if(Math.random()<0.10) return {kind:"error", text: ERRORS[Math.floor(Math.random()*ERRORS.length)]};
+      if(Math.random()<0.06) return {kind:"glitch", text: glitchText("COMMAND.COM internal error")};
+      const useA = (drive==="C" && Math.random()<0.20) || (drive==="A" && Math.random()<0.70);
+      if(useA){ const pick = A_ONLY[Math.floor(Math.random()*A_ONLY.length)]; return {kind:"cmdA", text: stripPrompt(pick)}; }
+      const pick = C_ONLY[Math.floor(Math.random()*C_ONLY.length)]; return {kind:"cmdC", text: stripPrompt(pick)};
+    }
+
+    function runCycle(){
+      const item = nextRandomItem();
+      if(item.kind==="glitch"){
+        // add flicker class to terminal container on glitch
+        const term = document.querySelector('.term');
+        if(term){ term.classList.add('flicker'); setTimeout(()=>term.classList.remove('flicker'), 380); }
+        typeLine(item.text, ()=>{
+          typed.textContent = "";
+          setTimeout(()=> showBoot(()=> runCycle()), 800);
+        });
+        return;
+      }
+      if(item.kind==="error"){
+        // show as output (no prompt change)
+        typed.textContent = item.text;
+        setTimeout(()=>{ typed.textContent=""; setTimeout(runCycle, 500); }, 1200);
+        return;
+      }
+      if(item.kind==="cmdA"){ setPrompt("A"); } else { setPrompt("C"); }
+      typeLine(item.text, ()=>{
+        if(item.kind==="cmdA"){
+          if(/^copy\s+/i.test(item.text)){ setPrompt("C"); }
+          else if(/^a:$/i.test(item.text)){ setPrompt("A"); }
+        }
+        typed.textContent = "";
+        setTimeout(runCycle, 600);
+      });
+    }
+
+    if(typed && promptEl && caret){
+      showBoot(()=> runCycle());
+    }
 </script>
+
+<script>
+(function(){
+  const typed = document.querySelector('.term .typed');
+  const promptEl = document.querySelector('.term .prompt');
+  const caret = document.querySelector('.term .caret');
+
+  // Boot sequence (fixed display, ~2s each)
+  const BOOT_LINES = [
+    "Veryfiyng DMI Pool Data .....",
+    "Starting MS-DOS . . .",
+    "HIMEM is testing extended memory . . . done.",
+    "C:\\DOS\\SMARTDRV.EXE \\X"
+  ];
+
+  const C_ONLY = [
+    "games\\wolfenstein\\wolf3d.exe","games\\worms\\worms.exe","games\\needforspeed\\nfs.exe","games\\micromachines2\\mm2.exe",
+    "games\\blood\\bood.exe","games\\shadowwarrior\\sw.exe","games\\redneckrampage\\rr.exe","games\\heretic\\heretic.exe",
+    "games\\hexen\\hexen.exe","games\\gta\\gta.exe","games\\civilization\\civ.exe","games\\commandandconquer\\cnc.exe",
+    "games\\mortalkombat\\mortal.exe","games\\redalert\\ra.exe","games\\princeofpersia\\prince.exe","games\\heroesofmightandmagic\\heroes.exe",
+    "games\\quake\\quake.exe","games\\warcraft\\war.exe","games\\sensibleworldofsoccer\\sws.exe","games\\tombraider\\tomb.exe",
+    "games\\lionking\\lionking.exe","games\\lemmings\\lemmings.exe","games\\larry\\sierra.exe","games\\anotherworld\\world.exe",
+    "games\\deathrally\\dr.exe","games\\carmageddon\\carmageddon.exe","games\\fifa\\fifa96.exe","games\\goldenaxe\\axe.exe",
+    "games\\earthwormjim\\ewj.exe","games\\aloneinthedark\\alone.exe","games\\bomberman\\bomber.exe","games\\streetrod\\rod.exe",
+    "games\\supaplex\\supaplex.exe","games\\bumpy\\bumpy.exe","games\\tyrian\\tyrian.exe","games\\prehistoric\\prehistor.exe",
+    "games\\lotus\\lotus.exe","games\\incrediblemachine\\tim.exe","games\\commanderkeen\\keen.exe","games\\dangerousdave\\dave.exe",
+    "games\\thelostvikings\\vikings.exe","nortoncommander\\nc.exe","edit.com","utils\\wordstar\\ws.exe","utils\\arj.exe",
+    "utils\\dosrar\\rar.exe","utils\\pascal\\turbo.exe","chkdsk","vol","diskcopy","format c:","autoexec.bat"
+  ];
+  const A_ONLY = ["a:","C:\\>copy C:\\NOTES\\gamecheats.txt A:\\","C:\\>copy A:\\*.* C:\\DRIVERS\\SOUND\\"];
+  const ERRORS = ["Bad command or file name","Syntax error","Abort, Retry, Fail?"];
+
+  function stripPrompt(c){ return c.replace(/^C:\\>/, ""); }
+  function glitchText(s){
+    const pool = "#$%@&*[]{}<>_/\\|";
+    const chars = s.split("");
+    const count = Math.floor(Math.random()*3)+1;
+    for(let k=0;k<count;k++){ const i = Math.floor(Math.random()*chars.length); chars[i] = pool[Math.floor(Math.random()*pool.length)]; }
+    return chars.join("");
+  }
+
+  // Flicker effect (used only on glitches)
+  const styleFlicker = document.createElement('style');
+  styleFlicker.textContent = "@keyframes crtFlicker{0%,100%{opacity:1}40%{opacity:.65}60%{opacity:.85}} .flicker{animation:crtFlicker .35s linear 1}";
+  document.head.appendChild(styleFlicker);
+
+  let drive = "C";
+  function setPrompt(d){ drive=d; promptEl.textContent = (drive==="A" ? "A:\\>" : "C:\\>"); }
+
+  function typeLine(text, cb){
+    if(!typed) return cb && cb();
+    typed.textContent = "";
+    let i=0; const min=45,max=105;
+    (function step(){
+      typed.textContent = text.slice(0, ++i);
+      if(i>=text.length){ setTimeout(cb, 1100); }
+      else{ setTimeout(step, Math.floor(Math.random()*(max-min+1))+min ); }
+    })();
+  }
+
+  function showBoot(done){
+    setPrompt("C");
+    let i=0;
+    function next(){
+      if(i>=BOOT_LINES.length){ return done(); }
+      typed.textContent = BOOT_LINES[i++]; // fixed, not typed
+      setTimeout(next, 2000);
+    }
+    next();
+  }
+
+  function nextRandomItem(){
+    if(Math.random()<0.10) return {kind:"error", text: ERRORS[Math.floor(Math.random()*ERRORS.length)]};
+    if(Math.random()<0.06) return {kind:"glitch", text: glitchText("COMMAND.COM internal error")};
+    const useA = (drive==="C" && Math.random()<0.20) || (drive==="A" && Math.random()<0.70);
+    if(useA){ const pick = A_ONLY[Math.floor(Math.random()*A_ONLY.length)]; return {kind:"cmdA", text: stripPrompt(pick)}; }
+    const pick = C_ONLY[Math.floor(Math.random()*C_ONLY.length)]; return {kind:"cmdC", text: stripPrompt(pick)};
+  }
+
+  function runCycle(){
+    const item = nextRandomItem();
+    if(item.kind==="glitch"){
+      const term = document.querySelector('.term');
+      if(term){ term.classList.add('flicker'); setTimeout(()=>term.classList.remove('flicker'), 380); }
+      typeLine(item.text, ()=>{
+        typed.textContent = "";
+        setTimeout(()=> showBoot(()=> runCycle()), 800);
+      });
+      return;
+    }
+    if(item.kind==="error"){
+      typed.textContent = item.text;
+      setTimeout(()=>{ typed.textContent=""; setTimeout(runCycle, 500); }, 1200);
+      return;
+    }
+    if(item.kind==="cmdA"){ setPrompt("A"); } else { setPrompt("C"); }
+    typeLine(item.text, ()=>{
+      if(item.kind==="cmdA"){
+        if(/^copy\\s+/i.test(item.text)){ setPrompt("C"); }
+        else if(/^a:$/i.test(item.text)){ setPrompt("A"); }
+      }
+      typed.textContent = "";
+      setTimeout(runCycle, 600);
+    });
+  }
+
+  if(typed && promptEl && caret){
+    showBoot(()=> runCycle());
+  }
+})();
+</script>
+
 </body>
 </html>
