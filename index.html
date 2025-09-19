@@ -176,6 +176,13 @@
   .products{grid-template-columns:repeat(3, 1fr) !important;}
 }
 
+
+/* --- Fix: contain sponsor logos and prevent overflow --- */
+.sponsor img{max-width:100%; height:auto; display:block}
+.product{overflow:hidden}
+.product a[data-lightbox]{display:block; aspect-ratio:4/3; overflow:hidden; border-radius:8px}
+.product a[data-lightbox] img{width:100%; height:100%; object-fit:cover; display:block}
+
 </style>
 </head>
 <body>
@@ -212,7 +219,6 @@
         <button data-lang="en">EN</button>
       </div>
       <div class="term" aria-label="DOS terminál"><div class="line"><span class="prompt">C:\></span><span class="typed"></span><span class="caret">_</span></div></div>
-      </div>
     </header>
 
     <main>
@@ -481,106 +487,28 @@
 <audio id="sfx-dec_04" src="assets/sfx/dec_04.mp3" preload="auto"></audio>
 <div class="toast" id="dos-toast" role="status" aria-live="polite"></div>
 <script>
-  window.addEventListener('DOMContentLoaded',()=>{
-    // --- Easter egg sounds + centered toast ---
-    const toast = document.getElementById('dos-toast');
-    let toastTimer = null;
-    function showToast(msg){
-      if(!toast) return;
-      toast.textContent = msg;
-      toast.classList.add('show');
-      clearTimeout(toastTimer);
-      toastTimer = setTimeout(()=> toast.classList.remove('show'), 6500); // hosszabb megjelenítés
+window.addEventListener('DOMContentLoaded',()=>{
+  // --- Easter egg sounds + centered toast (fixed) ---
+  const toast = document.getElementById('dos-toast');
+  let toastTimer = null;
+  function showToast(msg){
+    if(!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=> toast.classList.remove('show'), 6500);
+  }
+  document.querySelectorAll('img.egg[data-msg]').forEach(el=>{
+    const msg = el.dataset.msg || '';
+    const sfx = el.dataset.sfx ? document.getElementById('sfx-'+el.dataset.sfx) : null;
+    function fire(){
+      try{ if(sfx){ sfx.currentTime = 0; sfx.play().catch(()=>{}); } }catch(e){}
+      showToast(msg);
     }
-    document.querySelectorAll('img.egg[data-msg]').forEach(el=>{
-      const msg = el.dataset.msg || '';
-      const sfx = el.dataset.sfx ? document.getElementById('sfx-'+el.dataset.sfx) : null;
-      function fire(){
-        try{ if(sfx){ sfx.currentTime = 0; sfx.play().catch(()=>{}); } }catch(e){}
-        showToast(msg);
-      }
-      el.addEventListener('click', fire);
-      el.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); fire(); } });
-    });
-
-    <>_/\\|";
-      const chars = s.split("");
-      const count = Math.floor(Math.random()*3)+1;
-      for(let k=0;k<count;k++){ const i = Math.floor(Math.random()*chars.length); chars[i] = pool[Math.floor(Math.random()*pool.length)]; }
-      return chars.join("");
-    }
-
-    // Flicker effect (used only on glitches)
-    const styleFlicker = document.createElement('style');
-    styleFlicker.textContent = `@keyframes crtFlicker{0%,100%{opacity:1}40%{opacity:.65}60%{opacity:.85}} .flicker{animation:crtFlicker .35s linear 1}`;
-    document.head.appendChild(styleFlicker);
-
-    let drive = "C";
-    function setPrompt(d){ drive=d; promptEl.textContent = (drive==="A" ? "A:\\>" : "C:\\>"); }
-
-    function typeLine(text, cb){
-      if(!typed) return cb&&cb();
-      typed.textContent = "";
-      let i=0; const min=45,max=105;
-      (function step(){
-        typed.textContent = text.slice(0, ++i);
-        if(i>=text.length){ setTimeout(cb, 1100); }
-        else{ setTimeout(step, Math.floor(Math.random()*(max-min+1))+min ); }
-      })();
-    }
-
-    function showBoot(done){
-      setPrompt("C");
-      let i=0;
-      function next(){
-        if(i>=BOOT_LINES.length){ return done(); }
-        // fixed (non-typed) — just display the whole line for ~2s
-        typed.textContent = BOOT_LINES[i++];
-        setTimeout(next, 2000);
-      }
-      next();
-    }
-
-    function nextRandomItem(){
-      if(Math.random()<0.10) return {kind:"error", text: ERRORS[Math.floor(Math.random()*ERRORS.length)]};
-      if(Math.random()<0.06) return {kind:"glitch", text: glitchText("COMMAND.COM internal error")};
-      const useA = (drive==="C" && Math.random()<0.20) || (drive==="A" && Math.random()<0.70);
-      if(useA){ const pick = A_ONLY[Math.floor(Math.random()*A_ONLY.length)]; return {kind:"cmdA", text: stripPrompt(pick)}; }
-      const pick = C_ONLY[Math.floor(Math.random()*C_ONLY.length)]; return {kind:"cmdC", text: stripPrompt(pick)};
-    }
-
-    function runCycle(){
-      const item = nextRandomItem();
-      if(item.kind==="glitch"){
-        // add flicker class to terminal container on glitch
-        const term = document.querySelector('.term');
-        if(term){ term.classList.add('flicker'); setTimeout(()=>term.classList.remove('flicker'), 380); }
-        typeLine(item.text, ()=>{
-          typed.textContent = "";
-          setTimeout(()=> showBoot(()=> runCycle()), 800);
-        });
-        return;
-      }
-      if(item.kind==="error"){
-        // show as output (no prompt change)
-        typed.textContent = item.text;
-        setTimeout(()=>{ typed.textContent=""; setTimeout(runCycle, 500); }, 1200);
-        return;
-      }
-      if(item.kind==="cmdA"){ setPrompt("A"); } else { setPrompt("C"); }
-      typeLine(item.text, ()=>{
-        if(item.kind==="cmdA"){
-          if(/^copy\s+/i.test(item.text)){ setPrompt("C"); }
-          else if(/^a:$/i.test(item.text)){ setPrompt("A"); }
-        }
-        typed.textContent = "";
-        setTimeout(runCycle, 600);
-      });
-    }
-
-    if(typed && promptEl && caret){
-      showBoot(()=> runCycle());
-    }
+    el.addEventListener('click', fire);
+    el.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); fire(); } });
+  });
+});
 </script>
 
 <script>
