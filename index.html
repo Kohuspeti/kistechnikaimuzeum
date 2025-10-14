@@ -183,6 +183,25 @@
 .product a[data-lightbox]{display:block; aspect-ratio:4/3; overflow:hidden; border-radius:8px}
 .product a[data-lightbox] img{width:100%; height:100%; object-fit:cover; display:block}
 
+
+/* --- Collapsible merch sections --- */
+.toggle{border:2px solid var(--border); margin:10px 0; background:#000;}
+.toggle header{
+  display:flex; align-items:center; justify-content:space-between;
+  width:100%; background:#000; color:var(--text); padding:10px 12px;
+  cursor:pointer; border-bottom:2px solid var(--border);
+}
+.toggle header .label{font-weight:normal; color:var(--yellow)}
+.toggle header .chev{transition:transform .25s ease;}
+.toggle.open header .chev{transform:rotate(90deg)}
+.toggle .toggle-body{
+  overflow:hidden; max-height:0; transition:max-height .4s ease-in-out;
+}
+.toggle.open .toggle-body{ max-height: 5000px; } /* large enough */
+
+/* Header title images */
+.h2img{display:block; height:30px; width:auto; image-rendering:auto; margin:0 0 12px 0}
+
 </style>
 </head>
 <body>
@@ -223,7 +242,7 @@
 
     <main>
       <section id="home">
-        <h2 data-i18n="menu.home">Bevezetés</h2>
+        <img class="h2img" data-i18n-img data-src-base="bevezetes" alt="" src="assets/headers/bevezetes_HU.png">
         <div class="panel">
           <p data-i18n="home.p1">Üdv a <span style='color:var(--yellow); font-weight:normal'>Kis Technikai Múzeum</span> weboldalán! 2019 óta enged bepillantást a technika csodás világába, legyen szó kicsikről vagy nagyokról. Kísérd végig a masinák fejlődését a detektoroktól kezdve, az elektroncsöveken és tranzisztorokon át, az integrált áramkörökig.</p>
           <p data-i18n="home.p2">Telekommunikáció, számítástechnika, híradástechnika, katonai eszközök, szórakoztató ipar, háztartási gépek – időkapszula a múltból. Szakszerű tárlatvezetéssel készülünk, a termékek nagy része kipróbálható, interaktív.</p>
@@ -240,7 +259,7 @@
       </section>
 
       <section id="info">
-        <h2 data-i18n="menu.info">Infók</h2>
+        <img class="h2img" data-i18n-img data-src-base="infok" alt="" src="assets/headers/infok_HU.png">
         <div class="panel">
           <p data-i18n="info.address"><span style="color:var(--yellow)">Cím:</span> G. Czuczora 261, Zemné, Slovakia, 94122</p>
           <p data-i18n="info.email"><span style="color:var(--yellow)">E-mail:</span> <a class="link-plain" href="mailto:kohusp.servis@gmail.com">kohusp.servis@gmail.com</a></p>
@@ -256,7 +275,7 @@
       </section>
 
       <section id="gallery">
-        <h2 data-i18n="gallery.title">Galéria</h2>
+        <img class="h2img" data-i18n-img data-src-base="galeria" alt="" src="assets/headers/galeria_HU.png">
         <div class="gallery" id="galleryGrid">
           <a href="assets/gallery/full/gallery_01.jpg" data-lightbox><img alt="Galéria 1" src="assets/gallery/thumbs/gallery_01.jpg"></a>
           <a href="assets/gallery/full/gallery_02.jpg" data-lightbox><img alt="Galéria 2" src="assets/gallery/thumbs/gallery_02.jpg"></a>
@@ -271,7 +290,7 @@
       </section>
 
       <section id="videos">
-        <h2 data-i18n="menu.videos">Videók</h2>
+        <img class="h2img" data-i18n-img data-src-base="videok" alt="" src="assets/headers/videok_HU.png">
         <div class="video-grid">
           <div class="video"><iframe src="https://www.youtube.com/embed/0g1_elP4ELY" title="Video 1" allowfullscreen loading="lazy"></iframe></div>
           <div class="video"><iframe src="https://www.youtube.com/embed/9SF22E8EgPg" title="Video 2" allowfullscreen loading="lazy"></iframe></div>
@@ -281,75 +300,191 @@
       </section>
 
       <section id="support">
-        <h2 data-i18n="support.title">Támogatás / Merch</h2>
+        <img class="h2img" data-i18n-img data-src-base="merch" alt="" src="assets/headers/merch_HU.png">
         <div class="panel">
           <p data-i18n="support.p1">Minden támogatás jól jön: anyagi, tárgyi vagy ha csak megosztod a múzeum hírét, hogy minél többekhez eljusson. A múzeum non-profit, nincs belépődíj: különösen sokat segít a legkisebb gesztus is. Előre is köszönjük!</p>
-          <p data-i18n="support.p2">Az anyagilag támogatóknak szeretnénk köszönetet mondani egy kis figyelmességgel is: választhat az alábbi dísztárgyak egyikéből. A kis merch tárgyacskák kicsinyített másai a régmúlt népszerű, szép termékeiből: gondosan ügyelve a részletekre és a legtöbb interaktív – nyitható ajtócskák, mozgatható alkatrészek.</p>
-          <p data-i18n="support.p3"><span style='color:var(--yellow); font-weight:normal'>40 Euró támogatás felett</span> jár az ajándék. A támogatók személyesen a múzeumban tudnak adakozni vagy számlára utalással:</p>
+          <p data-i18n="support.p2">Az anyagilag támogatóknak szeretnénk köszönetet mondani egy kis figyelmességgel is: választhat az alábbi tárgyak egyikéből. A modellek kicsinyített másai a régmúlt népszerű, szép termékeiből: gondosan ügyelve a részletekre és a legtöbb interaktív – nyitható ajtócskák, mozgatható alkatrészek. Trikók, egéralátétek, kitűzők és más termékek is választhatóak</p>
+          <p data-i18n="support.p3">A támogatók személyesen a múzeumban tudnak adakozni vagy számlára utalással:</p>
           <p><span class="iban" style="font-weight:normal">SK74 0200 0000 0021 9901 3253</span></p>
-          <p data-i18n="support.p4">Utalás esetén kérjük az információs mezőbe beírni „Kis Technikai Múzeum”, és szíveskedjenek erről külön <a class='link-plain' href='mailto:kohusp.servis@gmail.com'>e-mailt</a> is küldeni a nevükkel. Aki 40 Euró felett támogatna utalással, és igényelne egy merch modellt is, ugyancsak e-mailben jelezze ezt felénk, informáljon hogy személyes átvétel lenne a múzeumban vagy futárszolgálattal kéri. Utóbbi esetben adja meg a címét, telefonszámát is.</p>
+          <p data-i18n="support.p4">Utalás esetén kérjük az információs mezőbe beírni „Kis Technikai Múzeum”, és szíveskedjenek erről külön <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e-mailt</a> is küldeni a nevükkel és a választott tárggyal.</p>
         </div>
-        <div class="products">
+
+<div class="toggle" id="merch-models">
+  <header role="button" tabindex="0" aria-expanded="false">
+    <span class="label" data-i18n="support.models">Modellek</span>
+    <span class="chev">▶</span>
+  </header>
+  <div class="toggle-body">
+    <div class="products">
+
           <!-- 4 sor × 3 oszlop = 12 kártya => merch_01..12 -->
           <div class="product">
             <a href="assets/merch/full/merch_01.jpg" data-lightbox><img src="assets/merch/thumbs/merch_01.jpg" alt="Merch 1"></a>
-            <h3 data-i18n="merch.1.title">Orion AR612 Pacsirta rádió</h3><p data-i18n="merch.1.desc">a 60-as évek egyik legszebb magyar rádiója.</p>
+            <h3 data-i18n="merch.1.title">Orion AR612 Pacsirta rádió - 40€</h3><p data-i18n="merch.1.desc">a 60-as évek egyik legszebb magyar rádiója.</p>
           </div>
           <div class="product">
-            <a href="assets/merch/full/merch_02.jpg" data-lightbox><img src="assets/merch/thumbs/merch_02.jpg" alt="Merch 2"></a>
-            <h3 data-i18n="merch.2.title">Tesla B101 Stereo</h3><p data-i18n="merch.2.desc">legendás orsós magnó.</p>
+            <a href="assets/merch/full/merch_02.jpg" data-lightbox=""><img src="assets/merch/thumbs/merch_02.jpg" alt="Merch 2"></a>
+            <h3 data-i18n="merch.2.title">Tesla B101 Stereo - 30€</h3><p data-i18n="merch.2.desc">legendás orsós magnó.</p>
           </div>
           <div class="product">
-            <a href="assets/merch/full/merch_03.jpg" data-lightbox><img src="assets/merch/thumbs/merch_03.jpg" alt="Merch 3"></a>
-            <h3 data-i18n="merch.3.title">Tesla Copelia zeneszekrény</h3><p data-i18n="merch.3.desc">elegáns zeneszekrény, letisztult vonalakkal.</p>
+            <a href="assets/merch/full/merch_03.jpg" data-lightbox=""><img src="assets/merch/thumbs/merch_03.jpg" alt="Merch 3"></a>
+            <h3 data-i18n="merch.3.title">Tesla Copelia zeneszekrény - 40€</h3><p data-i18n="merch.3.desc">elegáns zeneszekrény, letisztult vonalakkal.</p>
           </div>
           <div class="product">
-            <a href="assets/merch/full/merch_04.jpg" data-lightbox><img src="assets/merch/thumbs/merch_04.jpg" alt="Merch 4"></a>
-            <h3 data-i18n="merch.4.title">iMac G3 Bondi Blue</h3><p data-i18n="merch.4.desc">Egyedi formatervű, sokoldalú számítógép a 90-es évek végéről.</p></div>
+            <a href="assets/merch/full/merch_04.jpg" data-lightbox=""><img src="assets/merch/thumbs/merch_04.jpg" alt="Merch 4"></a>
+            <h3 data-i18n="merch.4.title">iMac G3 Bondi Blue - 40€</h3><p data-i18n="merch.4.desc">Egyedi formatervű, sokoldalú számítógép a 90-es évek végéről.</p></div>
           <div class="product">
-            <a href="assets/merch/full/merch_05.jpg" data-lightbox><img src="assets/merch/thumbs/merch_05.jpg" alt="Merch 5"></a>
-            <h3 data-i18n="merch.5.title">Videoton TB631 Kékes</h3><p data-i18n="merch.5.desc">Nevéhez hűen, szokatlan kék színű előlapú tévé.</p></div>
+            <a href="assets/merch/full/merch_05.jpg" data-lightbox=""><img src="assets/merch/thumbs/merch_05.jpg" alt="Merch 5"></a>
+            <h3 data-i18n="merch.5.title">Videoton TB631 „Kékes” - 40€</h3><p data-i18n="merch.5.desc">Nevéhez hűen, szokatlan kék színű előlapú tévé.</p></div>
           <div class="product">
-            <a href="assets/merch/full/merch_06.jpg" data-lightbox><img src="assets/merch/thumbs/merch_06.jpg" alt="Merch 6"></a>
-            <h3 data-i18n="merch.6.title">Pedálos Moszkvics</h3><p data-i18n="merch.6.desc">Gyerekkorunk kedvenc járgánya.</p></div>
+            <a href="assets/merch/full/merch_06.jpg" data-lightbox=""><img src="assets/merch/thumbs/merch_06.jpg" alt="Merch 6"></a>
+            <h3 data-i18n="merch.6.title">Pedálos Moszkvics - 40€</h3><p data-i18n="merch.6.desc">Gyerekkorunk kedvenc járgánya.</p></div>
 
           <!-- KÉRT FRISSÍTÉSEK: 7–9 -->
           <div class="product">
-            <a href="assets/merch/full/merch_07.jpg" data-lightbox><img src="assets/merch/thumbs/merch_07.jpg" alt="Merch 7"></a>
-            <h3 data-i18n="merch.7.title">Junoszty 402B + Videoton Pong</h3>
+            <a href="assets/merch/full/merch_07.jpg" data-lightbox=""><img src="assets/merch/thumbs/merch_07.jpg" alt="Merch 7"></a>
+            <h3 data-i18n="merch.7.title">Junoszty 402B + Videoton Pong - 30€</h3>
             <p data-i18n="merch.7.desc">Peak gaming setup a 80-as évek elejéről.</p>
           </div>
           <div class="product">
-            <a href="assets/merch/full/merch_08.jpg" data-lightbox><img src="assets/merch/thumbs/merch_08.jpg" alt="Merch 8"></a>
-            <h3 data-i18n="merch.8.title">Tesla Color 416</h3>
+            <a href="assets/merch/full/merch_08.jpg" data-lightbox=""><img src="assets/merch/thumbs/merch_08.jpg" alt="Merch 8"></a>
+            <h3 data-i18n="merch.8.title">Tesla Color 416 - 30€</h3>
             <p data-i18n="merch.8.desc">Az első „modern” Tesla színes TV. A sorozatban debütált a távirányító, a SCART bemenet és a Teletext is.</p>
           </div>
           <div class="product">
-            <a href="assets/merch/full/merch_09.jpg" data-lightbox><img src="assets/merch/thumbs/merch_09.jpg" alt="Merch 9"></a>
-            <h3 data-i18n="merch.9.title">Tesla Merkur 2</h3>
+            <a href="assets/merch/full/merch_09.jpg" data-lightbox=""><img src="assets/merch/thumbs/merch_09.jpg" alt="Merch 9"></a>
+            <h3 data-i18n="merch.9.title">Tesla Merkur 2 - 30€</h3>
             <p data-i18n="merch.9.desc">Az egyik legnépszerűbb hordozható kistévé, gyakran monitorként használva a PMD-85 számítógépekhez.</p>
           </div>
 
           <div class="product">
-  <a href="assets/merch/full/merch_10.jpg" data-lightbox><img src="assets/merch/thumbs/merch_10.jpg" alt="Merch 10"></a>
-  <h3 data-i18n="merch.10.title">Videoton Prometheus + Supermax hangfalak</h3>
+  <a href="assets/merch/full/merch_10.jpg" data-lightbox=""><img src="assets/merch/thumbs/merch_10.jpg" alt="Merch 10"></a>
+  <h3 data-i18n="merch.10.title">Videoton Prometheus + Supermax hangfalak - 40€</h3>
   <p data-i18n="merch.10.desc">A 70-es évek egyik csúcs HiFi terméke.</p>
 </div>
           <div class="product">
-  <a href="assets/merch/full/merch_11.jpg" data-lightbox><img src="assets/merch/thumbs/merch_11.jpg" alt="Merch 11"></a>
-  <h3 data-i18n="merch.11.title">Csehszlovák telefonfülke (70-es évek)</h3>
+  <a href="assets/merch/full/merch_11.jpg" data-lightbox=""><img src="assets/merch/thumbs/merch_11.jpg" alt="Merch 11"></a>
+  <h3 data-i18n="merch.11.title">Csehszlovák telefonfülke - 40€</h3>
   <p data-i18n="merch.11.desc">Tipikus tárcsás telefonfülke a 70-es évekből.</p>
 </div>
           <div class="product">
-  <a href="assets/merch/full/merch_12.jpg" data-lightbox><img src="assets/merch/thumbs/merch_12.jpg" alt="Merch 12"></a>
-  <h3 data-i18n="merch.12.title">Tesla Talisman 308U</h3>
+  <a href="assets/merch/full/merch_12.jpg" data-lightbox=""><img src="assets/merch/thumbs/merch_12.jpg" alt="Merch 12"></a>
+  <h3 data-i18n="merch.12.title">Tesla Talisman 308U - 30€</h3>
   <p data-i18n="merch.12.desc">A Tesla egyik legnépszerűbb terméke, világszerte keresett gyűjtői darab.</p>
 </div>
-        </div>
-      </section>
+
+    </div>
+  </div>
+</div>
+
+<div class="toggle" id="merch-shirts">
+  <header role="button" tabindex="0" aria-expanded="false">
+    <span class="label" data-i18n="support.shirts">Pólók</span>
+    <span class="chev">▶</span>
+  </header>
+  <div class="toggle-body">
+    <div class="products">
+      <div class="product">
+        <a href="assets/shirts/full/shirt_full1.jpg" data-lightbox><img src="assets/shirts/thumb/shirt_thumb1.jpg" alt="Shirt 1"></a>
+        <h3 data-i18n="shirts.1.title">AT korszak</h3>
+        <p data-i18n="shirts.1.desc">Romantikus nosztalgia az AT formátum korszakából.</p>
+      </div>
+      <div class="product">
+        <a href="assets/shirts/full/shirt_full2.jpg" data-lightbox><img src="assets/shirts/thumb/shirt_thumb2.jpg" alt="Shirt 2"></a>
+        <h3 data-i18n="shirts.2.title">Commodore 64</h3>
+        <p data-i18n="shirts.2.desc">A Commodore 64 kedvelőinek.</p>
+      </div>
+      <div class="product">
+        <a href="assets/shirts/full/shirt_full3.jpg" data-lightbox><img src="assets/shirts/thumb/shirt_thumb3.jpg" alt="Shirt 3"></a>
+        <h3 data-i18n="shirts.3.title">Minden családban volt</h3>
+        <p data-i18n="shirts.3.desc">Szó szerint, minden családban volt.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toggle" id="merch-mousepads">
+  <header role="button" tabindex="0" aria-expanded="false">
+    <span class="label" data-i18n="support.mousepads">Egéralátétek</span>
+    <span class="chev">▶</span>
+  </header>
+  <div class="toggle-body">
+    <div class="products">
+      <div class="product">
+        <a href="assets/pad/full/pad_full1.jpg" data-lightbox><img src="assets/pad/thumb/pad_thumb1.jpg" alt="Mousepad 1"></a>
+        <h3 data-i18n="pads.1.title">DOOM</h3>
+        <p data-i18n="pads.1.desc">Különösen igaz a 4. epizódra Ultra Violence fokozaton.</p>
+      </div>
+      <div class="product">
+        <a href="assets/pad/full/pad_full2.jpg" data-lightbox><img src="assets/pad/thumb/pad_thumb2.jpg" alt="Mousepad 2"></a>
+        <h3 data-i18n="pads.2.title">Diablo</h3>
+        <p data-i18n="pads.2.desc">Tisztítsd gyakran, mert a Diablo-ban kellenek a gyors mozdulatok.</p>
+      </div>
+      <div class="product">
+        <a href="assets/pad/full/pad_full3.jpg" data-lightbox><img src="assets/pad/thumb/pad_thumb3.jpg" alt="Mousepad 3"></a>
+        <h3 data-i18n="pads.3.title">Pro Tip</h3>
+        <p data-i18n="pads.3.desc">Pro Tip: CTRL-I -vel tüzijátékká lehet animálni a képet.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toggle" id="merch-badges">
+  <header role="button" tabindex="0" aria-expanded="false">
+    <span class="label" data-i18n="support.badges">Kitűzők</span>
+    <span class="chev">▶</span>
+  </header>
+  <div class="toggle-body">
+    <div class="products">
+      <div class="product">
+        <a href="assets/badges/full/badge_full1.jpg" data-lightbox><img src="assets/badges/thumb/badge_thumb1.jpg" alt="Badge 1"></a>
+        <h3 data-i18n="badges.1.title">Nem szégyen</h3>
+        <p data-i18n="badges.1.desc">Nem szégyen az!</p>
+      </div>
+      <div class="product">
+        <a href="assets/badges/full/badge_full2.jpg" data-lightbox><img src="assets/badges/thumb/badge_thumb2.jpg" alt="Badge 2"></a>
+        <h3 data-i18n="badges.2.title">És ti tudjátok?</h3>
+        <p data-i18n="badges.2.desc">És ti tudjátok?</p>
+      </div>
+      <div class="product">
+        <a href="assets/badges/full/badge_full3.jpg" data-lightbox><img src="assets/badges/thumb/badge_thumb3.jpg" alt="Badge 3"></a>
+        <h3 data-i18n="badges.3.title">True story</h3>
+        <p data-i18n="badges.3.desc">Megtörtént esemény alapján.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toggle" id="merch-etc">
+  <header role="button" tabindex="0" aria-expanded="false">
+    <span class="label" data-i18n="support.other">Egyéb</span>
+    <span class="chev">▶</span>
+  </header>
+  <div class="toggle-body">
+    <div class="products">
+      <div class="product">
+        <a href="assets/etc/full/etc_full1.jpg" data-lightbox><img src="assets/etc/thumb/etc_thumb1.jpg" alt="Other 1"></a>
+        <h3 data-i18n="etc.1.title">Orion AR612 Pacsirta falikép</h3>
+        <p data-i18n="etc.1.desc">Orion AR612 Pacsirta falikép.</p>
+      </div>
+      <div class="product">
+        <a href="assets/etc/full/etc_full2.jpg" data-lightbox><img src="assets/etc/thumb/etc_thumb2.jpg" alt="Other 2"></a>
+        <h3 data-i18n="etc.2.title">Hamarosan</h3>
+        <p data-i18n="etc.2.desc">Hamarosan</p>
+      </div>
+      <div class="product">
+        <a href="assets/etc/full/etc_full3.jpg" data-lightbox><img src="assets/etc/thumb/etc_thumb3.jpg" alt="Other 3"></a>
+        <h3 data-i18n="etc.3.title">Hamarosan</h3>
+        <p data-i18n="etc.3.desc">Hamarosan</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</section>
 
       <section id="links">
-        <h2 data-i18n="menu.links">Ajánló</h2>
+        <img class="h2img" data-i18n-img data-src-base="ajanlo" alt="" src="assets/headers/ajanlo_HU.png">
         <div class="list">
           <div class="item"><strong style="color:var(--yellow)">Slovenské Technické Múzeum – Kassa (SK)</span><p>Web: <a href="https://www.stm-ke.sk/" target="_blank" rel="noopener">https://www.stm-ke.sk/</a></p></div>
           <div class="item"><strong style="color:var(--yellow)">Technické Múzeum v Brne (Brno, CZ)</span><p>Web: <a href="https://www.tmbrno.cz/" target="_blank" rel="noopener">https://www.tmbrno.cz/</a></p></div>
@@ -361,12 +496,12 @@
       </section>
 
       <section id="supporters">
-        <h2 data-i18n="supporters.title">Támogatók</h2>
+        <img class="h2img" data-i18n-img data-src-base="tamogatok" alt="" src="assets/headers/tamogatok_HU.png">
         <div class="sponsors">
           <a class="sponsor" href="https://www.postelds.sk" target="_blank" rel="noopener"><img src="assets/sponsors/sponsor_01.png" alt="Támogató 1" style="max-height:60px"></a>
           <a class="sponsor" href="https://www.zemne.sk" target="_blank" rel="noopener"><img src="assets/sponsors/sponsor_02.png" alt="Támogató 2" style="max-height:60px"></a>
           <a class="sponsor" href="https://www.kphv.sk" target="_blank" rel="noopener"><img src="assets/sponsors/sponsor_03.png" alt="Támogató 3" style="max-height:60px"></a>
-          <a class="sponsor" href="https://example.org" target="_blank" rel="noopener"><img src="assets/sponsors/sponsor_04.png" alt="Támogató 4" style="max-height:60px"></a>
+          <a class="sponsor" href="https://dizart.sk" target="_blank" rel="noopener"><img src="assets/sponsors/sponsor_04.png" alt="Támogató 4" style="max-height:60px"></a>
         </div>
       </section>
     </main>
@@ -392,6 +527,28 @@
       // --- Minimal i18n
       const dict = {
         hu:{
+'support.models':'Modellek',
+'support.shirts':'Pólók',
+'support.mousepads':'Egéralátétek',
+'support.badges':'Kitűzők',
+'support.other':'Egyéb',
+
+          'shirts.1.title':'Trikó - 30€','shirts.1.desc':'Romantikus nosztalgia az AT formátum korszakából.',
+          'shirts.2.title':'Trikó - 30€','shirts.2.desc':'A Commodore 64 kedvelőinek.',
+          'shirts.3.title':'Trikó - 30€','shirts.3.desc':'Szó szerint, minden családban volt.',
+
+          'pads.1.title':'Egéralátét - 15€','pads.1.desc':'Különösen igaz a 4. epizódra Ultra Violence fokozaton.',
+          'pads.2.title':'Egéralátét - 15€','pads.2.desc':'Tisztítsd gyakran, mert a Diablo-ban kellenek a gyors mozdulatok.',
+          'pads.3.title':'Egéralátét - 15€','pads.3.desc':'Pro Tip: CTRL-I -vel tüzijátékká lehet animálni a képet.',
+
+          'badges.1.title':'Kitűző - 8€','badges.1.desc':'Nem szégyen az!',
+          'badges.2.title':'Kitűző - 8€','badges.2.desc':'És ti tudjátok?',
+          'badges.3.title':'Kitűző - 8€','badges.3.desc':'Megtörtént esemény alapján.',
+
+          'etc.1.title':'Skála falikép - 40€','etc.1.desc':'Orion AR612 Pacsirta falikép.',
+          'etc.2.title':'Hamarosan','etc.2.desc':'Hamarosan',
+          'etc.3.title':'Hamarosan','etc.3.desc':'Hamarosan',
+
           brand:'Kis Technikai Múzeum',
           'menu.home':'Bevezetés','menu.info':'Infók','menu.gallery':'Galéria','menu.videos':'Videók','menu.support':'Támogatás / Merch','menu.links':'Ajánló','menu.supporters':'Támogatók',
           'lang.label':'Nyelv:',
@@ -407,24 +564,46 @@
           'info.hours':'<span style="color:var(--yellow)">Nyitvatartás:</span> minden második szombat, bővebb info: <a class="link-plain" href="https://www.facebook.com/muzeumszimo/" target="_blank" rel="noopener">Facebook</a>',
           'info.parking':'<span style="color:var(--yellow)">Parkolás:</span> az épület előtt és az épület udvarán',
           'support.p1':'Minden támogatás jól jön: anyagi, tárgyi vagy ha csak megosztod a múzeum hírét, hogy minél többekhez eljusson. A múzeum non-profit, nincs belépődíj: különösen sokat segít a legkisebb gesztus is. Előre is köszönjük!',
-          'support.p2':'Az anyagilag támogatóknak szeretnénk köszönetet mondani egy kis figyelmességgel is: választhat az alábbi dísztárgyak egyikéből. A kis merch tárgyacskák kicsinyített másai a régmúlt népszerű, szép termékeiből: gondosan ügyelve a részletekre és a legtöbb interaktív – nyitható ajtócskák, mozgatható alkatrészek.',
-          'support.p3':'<span style="color:var(--yellow); font-weight:normal">40 Euró támogatás felett</span> jár az ajándék. A támogatók személyesen a múzeumban tudnak adakozni vagy számlára utalással:',
-          'support.p4':'Utalás esetén kérjük az információs mezőbe beírni „Kis Technikai Múzeum”, és szíveskedjenek erről külön <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e-mailt</a> is küldeni a nevükkel. Aki 40 Euró felett támogatna utalással, és igényelne egy merch modellt is, ugyancsak e-mailben jelezze ezt felénk, informáljon hogy személyes átvétel lenne a múzeumban vagy futárszolgálattal kéri. Utóbbi esetben adja meg a címét, telefonszámát is.',
-          'merch.1.title':'Orion AR612 Pacsirta rádió','merch.1.desc':'a 60-as évek egyik legszebb magyar rádiója.',
-          'merch.2.title':'Tesla B101 Stereo','merch.2.desc':'legendás orsós magnó.',
-          'merch.3.title':'Tesla Copelia zeneszekrény','merch.3.desc':'elegáns zeneszekrény, letisztult vonalakkal.',
-          'merch.4.title':'iMac G3 Bondi Blue','merch.4.desc':'Egyedi formatervű, sokoldalú számítógép a 90-es évek végéről.',
-          'merch.5.title':'Videoton TB631 „Kékes”','merch.5.desc':'Nevéhez hűen, szokatlan kék színű előlapú tévé.',
-          'merch.6.title':'Pedálos Moszkvics','merch.6.desc':'Gyerekkorunk kedvenc járgánya.',
+          'support.p2':'Az anyagilag támogatóknak szeretnénk köszönetet mondani egy kis figyelmességgel is: választhat az alábbi tárgyak egyikéből. A modellek kicsinyített másai a régmúlt népszerű, szép termékeiből: gondosan ügyelve a részletekre és a legtöbb interaktív – nyitható ajtócskák, mozgatható alkatrészek. Trikók, egéralátétek, kitűzők és más termékek is választhatóak',
+          'support.p3':'A támogatók személyesen a múzeumban tudnak adakozni vagy számlára utalással:',
+          'support.p4':'Utalás esetén kérjük az információs mezőbe beírni „Kis Technikai Múzeum”, és szíveskedjenek erről külön <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e-mailt</a> is küldeni a nevükkel és a választott tárggyal.',
+          'merch.1.title':'Orion AR612 Pacsirta rádió - 40€','merch.1.desc':'a 60-as évek egyik legszebb magyar rádiója.',
+          'merch.2.title':'Tesla B101 Stereo - 30€','merch.2.desc':'legendás orsós magnó.',
+          'merch.3.title':'Tesla Copelia zeneszekrény - 40€','merch.3.desc':'elegáns zeneszekrény, letisztult vonalakkal.',
+          'merch.4.title':'iMac G3 Bondi Blue - 40€','merch.4.desc':'Egyedi formatervű, sokoldalú számítógép a 90-es évek végéről.',
+          'merch.5.title':'Videoton TB631 „Kékes” - 40€','merch.5.desc':'Nevéhez hűen, szokatlan kék színű előlapú tévé.',
+          'merch.6.title':'Pedálos Moszkvics - 40€','merch.6.desc':'Gyerekkorunk kedvenc járgánya.',
           /* ÚJ: 7–9 */
-          'merch.7.title':'Junoszty 402B + Videoton Pong','merch.7.desc':'Peak gaming setup a 80-as évek elejéről.',
-          'merch.8.title':'Tesla Color 416','merch.8.desc':'Az első „modern” Tesla színes TV. A sorozatban debütált a távirányító, a SCART bemenet és a Teletext is.',
-          'merch.9.title':'Tesla Merkur 2','merch.9.desc':'Az egyik legnépszerűbb hordozható kistévé, gyakran monitorként használva a PMD-85 számítógépekhez.',
-'merch.10.title':'Videoton Prometheus + Supermax hangfalak','merch.10.desc':'A 70-es évek egyik csúcs HiFi terméke.',
-          'merch.11.title':'Csehszlovák telefonfülke (70-es évek)','merch.11.desc':'Tipikus tárcsás telefonfülke a 70-es évekből.',
-          'merch.12.title':'Tesla Talisman 308U','merch.12.desc':'A Tesla egyik legnépszerűbb terméke, világszerte keresett gyűjtői darab.',
+          'merch.7.title':'Junoszty 402B + Videoton Pong - 30€','merch.7.desc':'Peak gaming setup a 80-as évek elejéről.',
+          'merch.8.title':'Tesla Color 416 - 30€','merch.8.desc':'Az első „modern” Tesla színes TV. A sorozatban debütált a távirányító, a SCART bemenet és a Teletext is.',
+          'merch.9.title':'Tesla Merkur 2 - 30€','merch.9.desc':'Az egyik legnépszerűbb hordozható kistévé, gyakran monitorként használva a PMD-85 számítógépekhez.',
+'merch.10.title':'Videoton Prometheus + Supermax hangfalak - 40€','merch.10.desc':'A 70-es évek egyik csúcs HiFi terméke.',
+          'merch.11.title':'Csehszlovák telefonfülke - 40€','merch.11.desc':'Tipikus tárcsás telefonfülke a 70-es évekből.',
+          'merch.12.title':'Tesla Talisman 308U - 30€','merch.12.desc':'A Tesla egyik legnépszerűbb terméke, világszerte keresett gyűjtői darab.',
         },
         sk:{
+'support.models':'Modely',
+'support.shirts':'Tričká',
+'support.mousepads':'Podložky pod myš',
+'support.badges':'Odznaky',
+'support.other':'Ostatné',
+
+          'shirts.1.title':'Tričko €30','shirts.1.desc':'Romantická nostalgia z éry AT formátu.',
+          'shirts.2.title':'Tričko €30','shirts.2.desc':'Pre milovníkov Commodore 64.',
+          'shirts.3.title':'Tričko €30','shirts.3.desc':'Doslova – bol v každej rodine.',
+
+          'pads.1.title':'Podložka pod myš 15€','pads.1.desc':'Obzvlášť pravdivé pri 4. epizóde na úrovni Ultra Violence.',
+          'pads.2.title':'Podložka pod myš 15€','pads.2.desc':'Čisti ju často – v Diable sú rýchle pohyby nutné.',
+          'pads.3.title':'Podložka pod myš 15€','pads.3.desc':'Pro tip: pomocou CTRL‑I môžeš animovať obrázok na ohňostroj.',
+
+          'badges.1.title':'Odznak 8€','badges.1.desc':'To nie je hanba!',
+          'badges.2.title':'Odznak 8€','badges.2.desc':'A vy to viete?',
+          'badges.3.title':'Odznak 8€','badges.3.desc':'Podľa skutočnej udalosti.',
+
+          'etc.1.title':'Dekoračná stupnica 40€','etc.1.desc':'Nástenný obraz Orion AR612 Pacsirta.',
+          'etc.2.title':'Už čoskoro','etc.2.desc':'Už čoskoro',
+          'etc.3.title':'Už čoskoro','etc.3.desc':'Už čoskoro',
+
           brand:'Malé technické múzeum',
           'menu.home':'Úvod','menu.info':'Informácie','menu.gallery':'Galéria','menu.videos':'Videá','menu.support':'Podpora / Merch','menu.links':'Odporúčame','menu.supporters':'Podporovatelia','lang.label':'Jazyk:',
           'gallery.title':'Galéria','support.title':'Podpora / Merch','supporters.title':'Podporovatelia',
@@ -439,24 +618,46 @@
           'info.hours':'<span style="color:var(--yellow)">Otváracie hodiny:</span> každú druhú sobotu; viac info na <a class="link-plain" href="https://www.facebook.com/muzeumszimo/" target="_blank" rel="noopener">Facebooku</a>',
           'info.parking':'<span style="color:var(--yellow)">Parkovanie:</span> pred budovou a vo dvore',
           'support.p1':'Každá podpora pomôže: finančná, vecná alebo aj jednoduché zdieľanie, aby sa o múzeu dozvedelo viac ľudí. Múzeum je neziskové, vstupné sa nevyberá – pomôže aj ten najmenší krok. Ďakujeme!',
-          'support.p2':'Finančným darcom radi poďakujeme malou pozornosťou: môžete si vybrať jeden z nižšie uvedených predmetov. Ide o miniatúry historických prístrojov s dôrazom na detaily; mnohé sú interaktívne – otváracie dvierka, pohyblivé súčiastky.',
-          'support.p3':'<span style="color:var(--yellow); font-weight:normal">Pri podpore nad 40 €</span> získate darček. Prispieť môžete osobne v múzeu alebo bankovým prevodom:',
+          'support.p2':'Finančným darcom radi poďakujeme malou pozornosťou: môžete si vybrať jeden z nižšie uvedených predmetov. Modely historických prístrojov s dôrazom na detaily; mnohé sú interaktívne – otváracie dvierka, pohyblivé súčiastky. Sú tu aj tričká, odznaky, podložky pod myš a iné.',
+          'support.p3':'Prispieť môžete osobne v múzeu alebo bankovým prevodom:',
           'support.p4':'Do správy pre príjemcu uveďte „Malé technické múzeum“ a pošlite nám aj <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e-mail</a> s menom. Ak si želáte darčekový predmet a osobné prevzatie alebo doručenie kuriérom, uveďte adresu a telefónne číslo.',
-          'merch.1.title':'Orion AR612 Pacsirta rádio','merch.1.desc':'jedno z najkrajších maďarských rádií 60. rokov.',
-          'merch.2.title':'Tesla B101 Stereo','merch.2.desc':'legendárny kotúčový magnetofón.',
-          'merch.3.title':'Tesla Copelia hudobná skriňa','merch.3.desc':'elegantná hudobná skriňa s čistými líniami.',
-          'merch.4.title':'iMac G3 Bondi Blue','merch.4.desc':'Jedinečný dizajn a všestranný počítač z konca 90. rokov.',
-          'merch.5.title':'Videoton TB631 „Kékes”','merch.5.desc':'Verný svojmu menu – televízor s nezvyčajným modrým čelným panelom.',
-          'merch.6.title':'Šliapací Moskvich','merch.6.desc':'Obľúbené vozidielko nášho detstva.',
+          'merch.1.title':'Orion AR612 Pacsirta rádio - 40€','merch.1.desc':'jedno z najkrajších maďarských rádií 60. rokov.',
+          'merch.2.title':'Tesla B101 Stereo - 30€','merch.2.desc':'legendárny kotúčový magnetofón.',
+          'merch.3.title':'Tesla Copelia hudobná skriňa - 40€','merch.3.desc':'elegantná hudobná skriňa s čistými líniami.',
+          'merch.4.title':'iMac G3 Bondi Blue - 40€','merch.4.desc':'Jedinečný dizajn a všestranný počítač z konca 90. rokov.',
+          'merch.5.title':'Videoton TB631 „Kékes” - 40€','merch.5.desc':'Verný svojmu menu – televízor s nezvyčajným modrým čelným panelom.',
+          'merch.6.title':'Šliapací Moskvič - 40€','merch.6.desc':'Obľúbené vozidielko nášho detstva.',
           /* ÚJ: 7–9 */
-          'merch.7.title':'Junosť 402B + Videoton Pong','merch.7.desc':'„Peak” herná zostava zo začiatku 80. rokov.',
-          'merch.8.title':'Tesla Color 416','merch.8.desc':'Prvý „moderný” farebný TV Tesla. V tejto sérii debutovalo diaľkové ovládanie, vstup SCART a teletext.',
-          'merch.9.title':'Tesla Merkur 2','merch.9.desc':'Jeden z najobľúbenejších prenosných mini TV, často používaný ako monitor k počítačom PMD-85.',
-'merch.10.title':'Videoton Prometheus + Supermax reproduktory','merch.10.desc':'Špičkový HiFi produkt 70. rokov.',
-          'merch.11.title':'Československá telefónna búdka (70. roky)','merch.11.desc':'Typická búdka s číselníkovým telefónom zo 70. rokov.',
-          'merch.12.title':'Tesla Talisman 308U','merch.12.desc':'Jeden z najobľúbenejších výrobkov Tesly, vyhľadávaný zberateľský kúsok na celom svete.',
+          'merch.7.title':'Junosť 402B + Videoton Pong - 30€','merch.7.desc':'„Peak” herná zostava zo začiatku 80. rokov.',
+          'merch.8.title':'Tesla Color 416 - 30€','merch.8.desc':'Prvý „moderný” farebný TV Tesla. V tejto sérii debutovalo diaľkové ovládanie, vstup SCART a teletext.',
+          'merch.9.title':'Tesla Merkur 2 - 30€','merch.9.desc':'Jeden z najobľúbenejších prenosných mini TV, často používaný ako monitor k počítačom PMD-85.',
+'merch.10.title':'Videoton Prometheus + Supermax reproduktory - 40€','merch.10.desc':'Špičkový HiFi produkt 70. rokov.',
+          'merch.11.title':'Československá telefónna búdka - 40€','merch.11.desc':'Typická búdka s číselníkovým telefónom zo 70. rokov.',
+          'merch.12.title':'Tesla Talisman 308U - 30€','merch.12.desc':'Jeden z najobľúbenejších výrobkov Tesly, vyhľadávaný zberateľský kúsok na celom svete.',
         },
         en:{
+'support.models':'Models',
+'support.shirts':'Shirts',
+'support.mousepads':'Mousepads',
+'support.badges':'Badges',
+'support.other':'Other',
+
+'shirts.1.title':'T-shirt - 30€','shirts.1.desc':'Romantic nostalgia from the AT form factor era.',
+          'shirts.2.title':'T-shirt - 30€','shirts.2.desc':'For fans of the Commodore 64.',
+          'shirts.3.title':'IT-shirt - 30€','shirts.3.desc':'Literally — was in every household.',
+
+          'pads.1.title':'Mousepad - 15€','pads.1.desc':'Especially true for Episode 4 on Ultra Violence.',
+          'pads.2.title':'Mousepad - 15€','pads.2.desc':'Clean it often — in Diablo you need quick moves.',
+          'pads.3.title':'Mousepad - 15€','pads.3.desc':'Pro tip: with CTRL‑I you can animate the image into fireworks.',
+
+          'badges.1.title':'Badge - 8€','badges.1.desc':'That’s no shame!',
+          'badges.2.title':'Badge - 8€','badges.2.desc':'And do you know it?',
+          'badges.3.title':'Badge - 8€','badges.3.desc':'Based on a true event.',
+
+          'etc.1.title':'Tuning scale wall art - 40€','etc.1.desc':'Orion AR612 Pacsirta wall art.',
+          'etc.2.title':'Coming soon','etc.2.desc':'Coming soon',
+          'etc.3.title':'Coming soon','etc.3.desc':'Coming soon',
+
           brand:'Small Technical Museum',
           'menu.home':'Introduction','menu.info':'Info','menu.gallery':'Gallery','menu.videos':'Videos','menu.support':'Support / Merch','menu.links':'Recommendations','menu.supporters':'Supporters','lang.label':'Language:',
           'gallery.title':'Gallery','support.title':'Support / Merch','supporters.title':'Supporters',
@@ -471,22 +672,22 @@
           'info.hours':'<span style="color:var(--yellow)">Opening hours:</span> every second Saturday; details on <a class="link-plain" href="https://www.facebook.com/muzeumszimo/" target="_blank" rel="noopener">Facebook</a>',
           'info.parking':'<span style="color:var(--yellow)">Parking:</span> in front of the building and in the courtyard',
           'support.p1':'All kinds of support help: financial, in-kind, or simply spreading the word so more people hear about the museum. We are non-profit and charge no admission — even the smallest gesture helps. Thank you in advance!',
-          'support.p2':'To thank financial supporters, you can choose one of the small gift items below. These are miniature replicas of classic devices with great attention to detail; many are interactive — with opening doors and moving parts.',
-          'support.p3':'<span style="color:var(--yellow); font-weight:normal">For donations over €40</span> you’ll receive a gift. You can donate in person at the museum or by bank transfer:',
+          'support.p2':'To thank financial supporters, you can choose one of thegift items below. Models are miniature replicas of classic devices with great attention to detail; many are interactive — with opening doors and moving parts. You can find T-shirts, Pin-up badges, mousepads as well.',
+          'support.p3':'You can donate in person at the museum or by bank transfer:',
           'support.p4':'For bank transfers, please add “Small Technical Museum” to the payment note and send us an <a class="link-plain" href="mailto:kohusp.servis@gmail.com">e-mail</a> with your name. If you’d like a gift item and prefer pickup at the museum or courier delivery, please include your address and phone number.',
-          'merch.1.title':'Orion AR612 Pacsirta radio','merch.1.desc':'one of the most beautiful Hungarian radios of the 1960s.',
-          'merch.2.title':'Tesla B101 Stereo','merch.2.desc':'legendary reel-to-reel tape recorder.',
-          'merch.3.title':'Tesla Copelia console stereo','merch.3.desc':'an elegant console with clean lines.',
-          'merch.4.title':'iMac G3 Bondi Blue','merch.4.desc':'Distinctive design, versatile computer from the late 1990s.',
-          'merch.5.title':'Videoton TB631 “Kékes”','merch.5.desc':'True to its name — a TV set with an unusual blue front panel.',
-          'merch.6.title':'Pedal Moskvich','merch.6.desc':'A childhood favorite ride-on car.',
+          'merch.1.title':'Orion AR612 Pacsirta radio - 40€','merch.1.desc':'one of the most beautiful Hungarian radios of the 1960s.',
+          'merch.2.title':'Tesla B101 Stereo - 30€','merch.2.desc':'legendary reel-to-reel tape recorder.',
+          'merch.3.title':'Tesla Copelia console - 40€','merch.3.desc':'an elegant console with clean lines.',
+          'merch.4.title':'iMac G3 Bondi Blue - 40€','merch.4.desc':'Distinctive design, versatile computer from the late 1990s.',
+          'merch.5.title':'Videoton TB631 “Kékes” - 40€','merch.5.desc':'True to its name — a TV set with an unusual blue front panel.',
+          'merch.6.title':'Pedal Moskvich - 40€','merch.6.desc':'A childhood favorite ride-on car.',
           /* ÚJ: 7–9 */
-          'merch.7.title':'Yunost 402B + Videoton Pong','merch.7.desc':'Peak gaming setup from the early 1980s.',
-          'merch.8.title':'Tesla Color 416','merch.8.desc':'The first “modern” Tesla color TV. This series introduced the remote control, SCART input, and Teletext.',
-          'merch.9.title':'Tesla Merkur 2','merch.9.desc':'One of the most popular portable mini-TVs, often used as a monitor for PMD-85 computers.',
-'merch.10.title':'Videoton Prometheus + Supermax speakers','merch.10.desc':'One of the top HiFi products of the 1970s.',
-          'merch.11.title':'Czechoslovak telephone booth (1970s)','merch.11.desc':'Typical rotary dial phone booth from the 1970s.',
-          'merch.12.title':'Tesla Talisman 308U','merch.12.desc':'One of Tesla’s most popular products, a highly sought-after collector’s item worldwide.',
+          'merch.7.title':'Yunost 402B + Videoton Pong - 30€','merch.7.desc':'Peak gaming setup from the early 1980s.',
+          'merch.8.title':'Tesla Color 416 - 30€','merch.8.desc':'The first “modern” Tesla color TV. This series introduced the remote control, SCART input, and Teletext.',
+          'merch.9.title':'Tesla Merkur 2 - 30€','merch.9.desc':'One of the most popular portable mini-TVs, often used as a monitor for PMD-85 computers.',
+'merch.10.title':'Videoton Prometheus + Supermax speakers - 40€','merch.10.desc':'One of the top HiFi products of the 1970s.',
+          'merch.11.title':'Czechoslovak telephone booth - 40€','merch.11.desc':'Typical rotary dial phone booth from the 1970s.',
+          'merch.12.title':'Tesla Talisman 308U - 30€','merch.12.desc':'One of Tesla’s most popular products, a highly sought-after collector’s item worldwide.',
         }
       };
       const setLang=(l)=>{
@@ -494,7 +695,16 @@
         document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n'); if(pack[k]) el.innerHTML = pack[k];});
         document.querySelectorAll('.lang button').forEach(b=>b.classList.toggle('active', b.dataset.lang===l));
         document.documentElement.lang=l; localStorage.setItem('site_lang', l);
-      };
+      
+        // Update header images (HU/SK/ENG)
+        const langSuffix = (l==='hu'?'HU':(l==='sk'?'SK':'ENG'));
+        document.querySelectorAll('[data-i18n-img]').forEach(img=>{
+          const base = img.getAttribute('data-src-base');
+          if(base){
+            img.setAttribute('src', `assets/headers/${base}_${langSuffix}.png`);
+          }
+        });
+};
       window.addEventListener('DOMContentLoaded',()=>{
         document.querySelectorAll('.lang button').forEach(b=>{
           b.addEventListener('click',(e)=>{ e.preventDefault(); setLang(b.dataset.lang); });
@@ -640,6 +850,24 @@ window.addEventListener('DOMContentLoaded',()=>{
   if(typed && promptEl && caret){
     showBoot(()=> runCycle());
   }
+})();
+</script>
+
+
+<script>
+// Collapsible toggles (independent, animated)
+(function(){
+  function setExpanded(h, open){
+    h.setAttribute('aria-expanded', open ? 'true' : 'false');
+    h.parentElement.classList.toggle('open', open);
+  }
+  document.querySelectorAll('.toggle > header').forEach(h=>{
+    function toggle(){ setExpanded(h, !(h.getAttribute('aria-expanded')==='true')); }
+    h.addEventListener('click', toggle);
+    h.addEventListener('keydown', e=>{
+      if(e.key==='Enter' || e.key===' '){ e.preventDefault(); toggle(); }
+    });
+  });
 })();
 </script>
 
